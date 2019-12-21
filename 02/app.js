@@ -5,9 +5,19 @@ class Counter extends React.Component {
     state = {
         amount: 0,
     }
+
+    clickHandler = event => {
+        console.log(event.target);
+       this.incrementCounter();
+    }
+
+    incrementCounter(){
+        const{amount} = this.state;
+        this.setState({amount: amount +1});
+    }
     
     render() {
-        return <button>click me ({ this.state.amount })</button>
+        return <button onClick={this.clickHandler}>click me ({ this.state.amount })</button>
     }
 }
 

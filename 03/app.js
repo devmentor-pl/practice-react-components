@@ -4,10 +4,37 @@ import ReactDOM from 'react-dom';
 class Article extends React.Component {
     state = {
         comments: [],
+        text:'',
     }
     
+    changeText = e =>{
+        this.setState({
+            text: e.target.value
+        });
+
+       
+    }
+    addComment = e => {
+       
+        e.preventDefault();
+       this.setState({
+            comments: [...this.state.comments, this.state.text]
+        });       
+     }
+
+    renderComments(){
+        const {comments} = this.state;
+        const commentsJSX = comments.map(comment =>{
+            return <li>{comment}</li>
+        });
+
+        return commentsJSX;
+    }
+
+
     render() {
         const {title, body} = this.props;
+        const{comments} = this.state;
         return (
             <article>
                 <h1>{ title }</h1>
@@ -16,21 +43,27 @@ class Article extends React.Component {
                     <form>
                         <div>
                             <label>
-                                <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
+                                <textarea onChange={this.changeText}
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
                                     name="content" 
+                                    value={this.state.text}
+                                    
                                 />
                             </label>
                         </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
+                        <div><input onClick={this.addComment} type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.renderComments()}
                     </ul>
                 </section>
             </article>
         )
     }
+
+   
+
+    
 }
 
 ReactDOM.render(
