@@ -28,11 +28,25 @@ class Article extends React.Component {
     });
   }
 
+  handleRemoveButtonClick(comment) {
+    const comments = this.state.comments.filter((item) => item !== comment);
+
+    this.setState({ comments });
+  }
+
   render() {
     const { title, body } = this.props;
     const { comments, commentContent } = this.state;
+
     const commentsList = comments.map((comment, index) => {
-      return <li key={index}>{comment}</li>;
+      return (
+        <li key={index}>
+          {comment}{" "}
+          <button onClick={() => this.handleRemoveButtonClick(comment)}>
+            Usuń
+          </button>
+        </li>
+      );
     });
 
     return (

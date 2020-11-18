@@ -20,7 +20,15 @@ class Weather extends React.Component {
     const apiUrl = `https://api.weatherbit.io/v2.0/current?key=${apiKey}&lat=${lat}&lon=${lng}&lang=pl&units=I`;
 
     fetch(apiUrl)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          response.json();
+        } else {
+          throw new Error(
+            "Information about the weather could not be fetched."
+          );
+        }
+      })
       .then((json) => {
         const { data } = json;
 

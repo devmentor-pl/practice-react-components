@@ -14,7 +14,7 @@ class App extends React.Component {
     console.log("componentDidMount");
 
     this.intervalId = setInterval(() => {
-      this.setState((state, props) => {
+      this.setState((state) => {
         return {
           counter: state.counter + 1,
         };
