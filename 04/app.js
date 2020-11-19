@@ -5,31 +5,47 @@ class App extends React.Component {
   state = {
     firstName: "",
     lastName: "",
-    searchQuery: "",
-    users: ["Jan Kowalski", "Michał Nowak"],
+    searchQuery: {
+      query: "",
+      time: 0,
+    },
+    users: [
+      {
+        name: "Jan Kowalski",
+        time: 32432432,
+      },
+      {
+        name: "Michał Nowak",
+        time: 32432434,
+      },
+    ],
   };
 
   renderUsersList() {
     const { users, searchQuery } = this.state;
     return users
-      .filter((name) => {
-        if (searchQuery.trim().length > 0) {
-          return name.toLowerCase().includes(searchQuery.toLowerCase());
+      .filter((user) => {
+        if (searchQuery.query.trim().length > 0) {
+          return user.name
+            .toLowerCase()
+            .includes(searchQuery.query.toLowerCase());
         }
 
         return true;
       })
-      .map((name, index) => {
+      .map((user, index) => {
         return (
-          <li key={index} onClick={this.clickHandler}>
-            {name}
+          <li key={index}>
+            {user.name}{" "}
+            <button onClick={() => this.removeClickHandler(user.name)}>
+              Remove
+            </button>
           </li>
         );
       });
   }
 
-  clickHandler = (e) => {
-    const { innerText: userName } = e.target;
+  removeClickHandler = (userName) => {
     this.removeUser(userName);
   };
 
@@ -40,9 +56,27 @@ class App extends React.Component {
     });
   };
 
+  searchQueryChange = (e) => {
+    const { value } = e.target;
+
+    this.setState({
+      searchQuery: {
+        query: value,
+        time: Date.now(),
+      },
+    });
+  };
+
   render() {
     const { firstName, lastName, searchQuery, users } = this.state;
     const list = this.renderUsersList();
+    const newUsersCount = users.reduce(
+      (total, user) =>
+        searchQuery.query.trim().length > 0 && user.time >= searchQuery.time
+          ? total + 1
+          : total,
+      0
+    );
 
     return (
       <section onSubmit={this.submitHandler}>
@@ -59,10 +93,14 @@ class App extends React.Component {
           type="text"
           name="searchQuery"
           placeholder="Search user"
-          value={searchQuery}
-          onChange={this.inputChange}
+          value={searchQuery.query}
+          onChange={this.searchQueryChange}
         />
-        <p>Hidden users: {users.length - list.length}</p>
+        <p>
+          Hidden users: {users.length - list.length}
+          <br />
+          New users: {newUsersCount}
+        </p>
         <ul>{list}</ul>
       </section>
     );
@@ -85,12 +123,12 @@ class App extends React.Component {
 
   addUser(name) {
     this.setState({
-      users: [...this.state.users, name],
+      users: [...this.state.users, { name, time: Date.now() }],
     });
   }
 
   removeUser(name) {
-    const currUsers = this.state.users.filter((user) => user != name);
+    const currUsers = this.state.users.filter((user) => user.name != name);
 
     this.setState({
       users: currUsers,
