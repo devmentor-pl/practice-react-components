@@ -11,19 +11,21 @@ class App extends React.Component {
 
   renderUsersList() {
     const { users, searchQuery } = this.state;
-    return users.map((name, index) => {
-      if (searchQuery.trim().length > 0) {
-        if (!name.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return null;
+    return users
+      .filter((name) => {
+        if (searchQuery.trim().length > 0) {
+          return name.toLowerCase().includes(searchQuery.toLowerCase());
         }
-      }
 
-      return (
-        <li key={index} onClick={this.clickHandler}>
-          {name}
-        </li>
-      );
-    });
+        return true;
+      })
+      .map((name, index) => {
+        return (
+          <li key={index} onClick={this.clickHandler}>
+            {name}
+          </li>
+        );
+      });
   }
 
   clickHandler = (e) => {
@@ -39,7 +41,9 @@ class App extends React.Component {
   };
 
   render() {
-    const { firstName, lastName, searchQuery } = this.state;
+    const { firstName, lastName, searchQuery, users } = this.state;
+    const list = this.renderUsersList();
+
     return (
       <section onSubmit={this.submitHandler}>
         <form>
@@ -58,7 +62,8 @@ class App extends React.Component {
           value={searchQuery}
           onChange={this.inputChange}
         />
-        <ul>{this.renderUsersList()}</ul>
+        <p>Hidden users: {users.length - list.length}</p>
+        <ul>{list}</ul>
       </section>
     );
   }
