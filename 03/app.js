@@ -19,17 +19,17 @@ class Article extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({
-            comments: this.addComment(),
+            comments: this._addComment(),
             commentInput: ''
         })
     }
-    addComment = () => {
+    _addComment = () => {
         return this.state.comments.concat({
             text: this.state.commentInput,
-            id: this.getId()
+            id: this._getId()
         })
     }
-    getId = () => this.state.comments.reduce((acc, comment) => acc = acc > comment.id ? acc : comment.id) + 1;
+    _getId = () => this.state.comments.reduce((acc, comment) => acc = acc > comment.id ? acc : comment.id) + 1;
 
     handleChange = (event) => {
         event.preventDefault();
@@ -39,8 +39,6 @@ class Article extends React.Component {
 
     render() {
         const {title, body} = this.props;
-        const { text, id } = this.state.comments;
-
         return (
             <article>
                 <h1>{ title }</h1>
@@ -60,7 +58,6 @@ class Article extends React.Component {
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
                         {this.state.comments.map(comment => {
                             return <li key={comment.id}>{comment.text}</li>
                         })}
