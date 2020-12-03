@@ -10,14 +10,16 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const {users, searchQuery } = this.state;
+        const filteredUsers = users.filter(usr => {
+            return usr.toLowerCase().includes(searchQuery.toLowerCase())
+        })
+
+        return filteredUsers.map(user => {
+            return (<li onClick={ this.clickHandler }>
+                        { user }
+                    </li>)
+        })
     }
 
     clickHandler = e => {
@@ -33,7 +35,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
@@ -47,9 +49,23 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                <label>
+                    <input  type="search"
+                            value={ searchQuery }
+                            onChange={ this.updateQuery }
+                    />
+                </label>
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
+    }
+
+    updateQuery = e => {
+        e.preventDefault();
+
+        this.setState({
+            searchQuery: e.target.value
+        })
     }
 
     submitHandler = e => {
