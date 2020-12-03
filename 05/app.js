@@ -5,29 +5,59 @@ export default class App extends Component {
     state = {
         weatherData: null
     }
-
     constructor(props) {
         super(props)
     }
-
     componentDidMount() {
         console.log('mounted');
+        this._getWeather()
+    }
+    _getWeather() {
+        const { lat, lon } = this.props;
+        // const lat = 52.232222;
+        // const lon = 21.0083;
+        const weatherLang = 'pl'
+        const apiKey = 'c12166f6b699496195f7b2ca51407ce4';
+        const url = `https://api.weatherbit.io/v2.0/current?key=${apiKey}&lat=${lat}&lon=${lon}&lang=${weatherLang}`
+
+        const weather = fetch(url)
+            .then(resp => {
+                if (resp.ok) {
+                    return resp.json()
+                } else {
+                    Promise.reject(resp);
+                }
+            })
+            .then(resp => {
+                this.setState({
+                    weatherData: resp.data[0]
+                })
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
-        return (
-            <div style={weatherCardStyle}>
-                <h4>POGODA</h4>
-                <h1>Opole</h1>
-                <ul>Współrzędne:
-                    <li>lat</li>
-                    <li>lon</li>
-                </ul>
-                <h4>Szczegółowe informacje:</h4>
-                <p> weather description </p>
-                <h3>temp </h3>
-            </div>
-        )
+        const { weatherData } = this.state;
+        if (weatherData) {
+            const { lat, lon, city_name, weather: { description }, temp } = weatherData;
+
+            return (
+                <div style={ weatherCardStyle }>
+                    <h4>POGODA</h4>
+                    <h1>Miasto: { city_name }</h1>
+                    <ul>Współrzędne:
+                        <li>Szerokość: { lat }</li>
+                        <li>Długość: { lon }</li>
+                    </ul>
+                    <h4>Szczegółowe informacje:</h4>
+                    <p> Opis: { description } </p>
+                    <h3>Temperatura: { temp } ° C</h3>
+                </div>
+            )
+        } else {
+            return null
+        }
+        
     }
 }
 
@@ -40,6 +70,3 @@ const weatherCardStyle = {
 }
 
 ReactDOM.render(<App/>, document.querySelector('#root'))
-
-
-// c12166f6b699496195f7b2ca51407ce4
