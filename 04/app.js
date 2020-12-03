@@ -16,15 +16,11 @@ class App extends React.Component {
         })
 
         return filteredUsers.map(user => {
-            return (
-                    <li onClick={ this.clickHandler }>
+            return (<li onClick={ this.clickHandler }>
                         { user }
-                    </li>
-                    )
+                    </li>)
         })
     }
-
-    
 
     clickHandler = e => {
         const {innerText: userName} = e.target;
