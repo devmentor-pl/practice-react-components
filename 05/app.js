@@ -9,29 +9,17 @@ export default class App extends Component {
         super(props)
     }
     componentDidMount() {
-        console.log('mounted');
-        this._getWeather()
+        this._getWeather();
     }
     _getWeather() {
         const { lat, lon } = this.props;
-        // const lat = 52.232222;
-        // const lon = 21.0083;
-        const weatherLang = 'pl'
         const apiKey = 'c12166f6b699496195f7b2ca51407ce4';
-        const url = `https://api.weatherbit.io/v2.0/current?key=${apiKey}&lat=${lat}&lon=${lon}&lang=${weatherLang}`
+        const url = `https://api.weatherbit.io/v2.0/current?key=${apiKey}&lat=${lat}&lon=${lon}&lang=pl`
 
         const weather = fetch(url)
+            .then(resp => (resp.ok) ? resp.json() : Promise.reject(resp))
             .then(resp => {
-                if (resp.ok) {
-                    return resp.json()
-                } else {
-                    Promise.reject(resp);
-                }
-            })
-            .then(resp => {
-                this.setState({
-                    weatherData: resp.data[0]
-                })
+                this.setState({ weatherData: resp.data[0] })
             })
             .catch(err => console.log(err));
     }
@@ -40,7 +28,6 @@ export default class App extends Component {
         const { weatherData } = this.state;
         if (weatherData) {
             const { lat, lon, city_name, weather: { description }, temp } = weatherData;
-
             return (
                 <div style={ weatherCardStyle }>
                     <h4>POGODA</h4>
