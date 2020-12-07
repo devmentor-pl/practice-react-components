@@ -13,11 +13,11 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={this.addComment}>
                         <div>
                             <label>
-                                <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
+                                <textarea
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
                                     name="content" 
                                 />
                             </label>
@@ -25,12 +25,33 @@ class Article extends React.Component {
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.createLiItem()}
                     </ul>
                 </section>
             </article>
         )
     }
+
+    addComment = (e) => {
+        e.preventDefault()
+        const content = e.target.elements.content.value;
+        this.setState({ comments: [...this.state.comments, content] })
+        this.clearField(e)
+    }
+
+    createLiItem() {
+        const { comments } = this.state;
+        return comments.map((com, index) => {
+            return (
+                <li key={index}>{com}</li>
+            )
+        })
+    }
+
+    clearField(e) {
+        e.target.elements.content.value = ''
+    }
+
 }
 
 ReactDOM.render(
