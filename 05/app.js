@@ -29,11 +29,12 @@ class Weather extends React.Component {
   componentDidMount() {
     const { lat, lng } = this.state.geoData
     this.fetchURLWithParameters(lat, lng)
-      .then(({ data }) => {
+      .then(({ data: [wheatherData] }) => {
+        const { temp, weather: { description } } = wheatherData
         this.setState({
           weatherData: {
-            temp: data[0].temp,
-            desc: data[0].weather.description
+            temp: temp,
+            desc: description
           }
         })
       })
