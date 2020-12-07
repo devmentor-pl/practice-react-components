@@ -12,16 +12,24 @@ class App extends React.Component {
     renderUsersList() {
         const {users} = this.state;
         if (this.state.searchQuery === '') {
-            return users.map((name, index) => {
-                return (
-                    <li key={index} onClick={this.clickHandler}>
-                        { name}
-                    </li>
-                );
-            });
-        } else {
-            const query = this.state.searchQuery.toLowerCase();
-            const searchedUsers = this.state.users.filter(
+            return this.returnUserList(users)
+        }
+        return this.returnFilteredUserList(users)
+    }
+
+    returnUserList(users) {
+        return users.map((name, index) => {
+            return (
+                <li key={index} onClick={this.clickHandler}>
+                    { name}
+                </li>
+            );
+        });
+    }
+
+    returnFilteredUserList(users) {
+        const query = this.state.searchQuery.toLowerCase();
+        const searchedUsers = users.filter(
                 user => user.toLowerCase().includes(query))
             return searchedUsers.map((name, index) => {
                 return (
@@ -30,7 +38,6 @@ class App extends React.Component {
                     </li>
                 );
             });
-        }
     }
 
     clickHandler = e => {
