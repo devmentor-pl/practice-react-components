@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 class Article extends React.Component {
     state = {
         comments: [],
+        content: ''
     }
     
     render() {
@@ -13,10 +14,10 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit= { this.submitHandler }>
                         <div>
                             <label>
-                                <textarea 
+                                <textarea value={ this.state.content } onChange={ this.contentChangedHandler }
                                     style={{ "min-width": "300px", "min-height": "120px" }} 
                                     name="content" 
                                 />
@@ -26,10 +27,34 @@ class Article extends React.Component {
                     </form>
                     <ul>
                         {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        { this.renderComments() }
                     </ul>
                 </section>
             </article>
         )
+    }
+
+    submitHandler = e => {
+        e.preventDefault()
+        const newComment = this.state.content
+
+        if(newComment) {
+            const newComments = [...this.state.comments, newComment]
+
+            this.setState({ comments: newComments,
+                            content: ''
+             })
+        }
+    }
+
+    contentChangedHandler = e => this.setState({content: e.target.value})
+
+    renderComments() {
+        const comments = this.state.comments
+
+        return comments.map(comment => {
+            return <li>{ comment }</li>
+        })
     }
 }
 
