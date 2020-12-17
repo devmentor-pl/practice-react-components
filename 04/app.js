@@ -7,17 +7,29 @@ class App extends React.Component {
         lastName: '',
         searchQuery: '',
         users: ['Jan Kowalski', 'Michał Nowak'],
+        filteredUsers: [],
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const {users,searchQuery,filteredUsers} = this.state;
+
+        if(searchQuery !== ''){
+            return filteredUsers.map(name => {
+                return (
+                    <li onClick={this.clickHandler}>
+                        {name}
+                    </li>
+                );
+            });
+        } else {
+            return users.map(name => {
+                return (
+                    <li onClick={ this.clickHandler }>
+                        { name }
+                    </li>
+                );
+            });
+        }
     }
 
     clickHandler = e => {
@@ -32,8 +44,18 @@ class App extends React.Component {
         });
     }
 
+    queryChange = e => {
+        const query = e.target.value;
+        this.setState({
+            searchQuery : query,
+        });
+
+        this.filterUsers(query);
+        
+    }
+
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
@@ -45,11 +67,28 @@ class App extends React.Component {
                         value={ lastName }
                         onChange={ this.inputChange }
                     />
+                    <label> Filter
+                        <input name ="query"
+                        value={searchQuery}
+                        onChange={ this.queryChange }
+                        />
+                    </label>
                     <input type="submit"/>
                 </form>
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
+    }
+
+    filterUsers(query){
+
+        const filteredArray = this.state.users.filter(
+            user => user.includes(query)
+        );
+
+        this.setState({
+            filteredUsers: filteredArray,
+        })
     }
 
     submitHandler = e => {
