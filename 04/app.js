@@ -6,19 +6,47 @@ class App extends React.Component {
         firstName: '',
         lastName: '',
         searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
+        users: ['Jan Kowalski', 'Michał Nowak', 'Jan Grzech', 'Kazimierz Złoty'],
+    }
+ 
+
+    renderUsersList(name) {
+
+       if(this.state.searchQuery === '') {
+     
+            const {users} = this.state;
+            return users.map((name, id) => {
+                return (
+                    <li key={id} onClick={ this.clickHandler }>
+                        { name }
+                    </li>
+                );
+            });
+            
+       } else if (this.state.searchQuery.length > 0){
+    
+
+        const {users, searchQuery} = this.state;
+        return users.map((user,id) => {
+               if(user.toLowerCase().includes(searchQuery.toLowerCase())) {
+                   return (
+                       <li key={id} onClick={this.clickHandler}>
+                       { user }
+                       </li>
+                   )
+               }
+            })
+
+
+        }
+     
     }
 
-    renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
-    }
+
+ 
+
+      
+    
 
     clickHandler = e => {
         const {innerText: userName} = e.target;
@@ -39,14 +67,28 @@ class App extends React.Component {
                 <form>
                     <input name="firstName"
                         value={ firstName }
+                         placeholder="Dodaj Imię "
                         onChange={ this.inputChange }
                     />
                     <input name="lastName"
                         value={ lastName }
+                         placeholder="Nazwisko"
                         onChange={ this.inputChange }
                     />
                     <input type="submit"/>
                 </form>
+
+
+                <input
+                type="text"
+                value={this.searchQuery}
+                onChange={this.inputChange}
+                name="searchQuery"
+                placeholder="Wyszukaj"
+                
+                />
+
+
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
