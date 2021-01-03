@@ -13,7 +13,7 @@ class App extends React.Component {
     const { users } = this.state;
 
     if (this.state.searchQuery) {
-      const name = this.state.searchQuery;
+      const name = this.state.searchQuery.toLowerCase();
 
       const filteredArray = users.filter((user) => {
         return user.toLowerCase().includes(name);
