@@ -5,23 +5,24 @@ class Weather extends React.Component {
   state = {
     data: [],
   };
+
   render() {
     const { data } = this.state;
-    // Mam problem z renderowaniem elementów pogody. Otóż wczytuje się tylko rh, a pozostałe elementy nie chcą się renderować, mimo że są w tablicy data.
-    const renderWeatherList = data.map((item) => {
-      for (const weatherItem in item) {
-        return (
-          <li>
-            {weatherItem}:{item[weatherItem]}
-          </li>
-        );
-      }
+
+    const printWeatherData = data.map((weatherArray) => {
+      const weatherArrayElements = Object.entries(weatherArray);
+
+      return weatherArrayElements.map((weatherDescription) => {
+        const weatherEntry = weatherDescription.join(' : ');
+        return <li>{weatherEntry}</li>;
+      });
     });
+
     if (data.length > 0) {
       return (
         <>
           <h1>Informacje o pogodzie...</h1>
-          <ul>{renderWeatherList}</ul>
+          <ul>{printWeatherData}</ul>
         </>
       );
     }
