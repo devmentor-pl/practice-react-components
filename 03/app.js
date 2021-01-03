@@ -11,7 +11,9 @@ class Article extends React.Component {
     e.preventDefault();
 
     const commentsCopy = [...this.state.comments];
-    if (this.state.textAreaValue) commentsCopy.push(this.state.textAreaValue);
+    if (this.state.textAreaValue) {
+      commentsCopy.push(this.state.textAreaValue);
+    }
 
     this.setState({ comments: commentsCopy, textAreaValue: '' });
   };
