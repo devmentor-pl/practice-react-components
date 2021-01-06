@@ -23,7 +23,7 @@ class App extends React.Component {
                 );
             });
             
-       } else if (this.state.searchQuery.length > 0){
+       } else if (this.state.searchQuery.length > 0) {
     
 
         const {users, searchQuery} = this.state;
@@ -63,8 +63,8 @@ class App extends React.Component {
     render() {
         const { firstName, lastName } = this.state;
         return (
-            <section onSubmit={ this.submitHandler }>
-                <form>
+            <section >
+                <form onSubmit={ this.submitHandler }>
                     <input name="firstName"
                         value={ firstName }
                          placeholder="Dodaj Imię "
@@ -104,9 +104,7 @@ class App extends React.Component {
                 firstName: '',
                 lastName: '',
             });
-        } else {
-            // tutaj komunikat dla użytkownika
-        }
+        } 
     }
 
     addUser(name) {

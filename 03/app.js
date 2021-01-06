@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 
 
 class Article extends React.Component {
-   
 
-    /*nie wiem czy coś jest nie tak, bo  napisałeś, że mam wyczyścić textarea, ale on sam się czyści*/
    
   
     state = {
@@ -24,7 +22,7 @@ class Article extends React.Component {
             handleSubmit = (event) => {
               
                 event.preventDefault();
-                const{textarea} = this.state;
+                const {textarea} = this.state;
                 this.addCommentary(`${textarea}`) 
                 this.setState({
                         textarea: "",
