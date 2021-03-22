@@ -59,9 +59,6 @@ class Article extends React.Component {
         const { textarea } = this.state;
         if (textarea) {
             this.addComment(`${textarea}`);
-            this.setState({
-                textarea: '',
-            });
         } else {
             this.setState({
                 textarea: 'Pole tekstowe nie zostało wypełnione !!!',
@@ -78,6 +75,9 @@ class Article extends React.Component {
     addComment(comm) {
         this.setState({
             comments: [...this.state.comments, comm],
+        });
+        this.setState({
+            textarea: '',
         });
     }
 }

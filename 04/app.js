@@ -20,7 +20,7 @@ class App extends React.Component {
                 );
             });
         } else {
-            const isSearch = users.filter(this.isChar);
+            const isSearch = users.filter(this.isName);
             return isSearch.map(name => {
                 return (
                     <li>
@@ -31,9 +31,14 @@ class App extends React.Component {
         }
     }
 
-    isChar = (name) => {
+    isName = (name) => {
         const { searchQuery } = this.state;
         if (name.includes(searchQuery))
+            return true;
+        if (name.toLowerCase().includes(searchQuery)) {
+            return true;
+        }
+        if (name.toUpperCase().includes(searchQuery))
             return true;
     }
 
