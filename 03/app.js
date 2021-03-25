@@ -75,8 +75,6 @@ class Article extends React.Component {
     addComment(comm) {
         this.setState({
             comments: [...this.state.comments, comm],
-        });
-        this.setState({
             textarea: '',
         });
     }

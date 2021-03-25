@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 
 class Weather extends React.Component {
     state = {
-        data: null,
+        lat: '',
+        lon: '',
+        app_temp: '',
+        description: '',
     }
 
     render() {
-        const { data } = this.state;
+        const { lat, lon, app_temp, description } = this.state;
 
-        if (data) {
-            return <h1>{data}</h1>
+        if (lat && lon && app_temp && description) {
+            return <h1>Szerokość geograficzna: {lat}, długość geograficzna: {lon}, temperatura wynosi: {app_temp}, opis pogody: {description}</h1>
         }
         return null;
     }
@@ -30,8 +33,12 @@ class Weather extends React.Component {
             .then(ip => {
                 ip.data.forEach(element => {
                     const { lat, lon, app_temp, weather: { description } } = element;
-                    const dataWeather = `Szerokość geograficzna: ${lat}, długość geograficzna: ${lon}, temperatura wynosi: ${app_temp}, opis pogody: ${description}`;
-                    this.setState({ data: dataWeather });
+                    this.setState({
+                        lat: lat,
+                        lon: lon,
+                        app_temp: app_temp,
+                        description: description,
+                    });
                 });
             })
             .catch(err => console.error(err))

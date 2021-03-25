@@ -33,12 +33,7 @@ class App extends React.Component {
 
     isName = (name) => {
         const { searchQuery } = this.state;
-        if (name.includes(searchQuery))
-            return true;
-        if (name.toLowerCase().includes(searchQuery)) {
-            return true;
-        }
-        if (name.toUpperCase().includes(searchQuery))
+        if (name.toUpperCase().includes(searchQuery.toUpperCase()))
             return true;
     }
 
