@@ -9,5 +9,3 @@ Twoim zadaniem jest napisać komponent kontrolowany tj. `state` zarządza zawart
 Następnie należy obsłużyć zdarzenie `submit` dla `form`, który ma dodać nowy komentarz jako kolejny element w `this.state.comments` i usunąć zawartość w  `<textarea/>`.
 
 Do renderowania wielu `<li/>` na podstawie `this.state.comments` wykorzystaj `.map()`.
-
-
