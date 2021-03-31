@@ -6,6 +6,38 @@ class Article extends React.Component {
         comments: [],
     }
     
+
+    submitHandler = (e) =>{
+        e.preventDefault();
+        this.addComment(e);
+    }
+
+    addComment(e) {
+        const comment = [...this.state.comments];
+        const {content: userComment} = e.target.elements;
+        
+        comment.push(userComment.value);
+
+        this.setState({
+            comments: comment
+        });
+
+        this.clearFileds(e);
+    }
+
+    clearFileds(e) {
+        return e.target.reset();
+    }
+
+    showComment() {
+        const {comments} = this.state;
+        const commentJSX = comments.map(item => {
+            return <li>{item}</li>
+        });
+
+        return commentJSX;
+    }
+    
     render() {
         const {title, body} = this.props;
         return (
@@ -13,19 +45,21 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={this.submitHandler }>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
                                     name="content" 
                                 />
                             </label>
                         </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
+                        <div>
+                            <input type="submit" value="dodaj komentarz" />
+                        </div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.showComment()}
                     </ul>
                 </section>
             </article>
