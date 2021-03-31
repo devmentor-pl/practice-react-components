@@ -13,13 +13,10 @@ class Article extends React.Component {
     }
 
     addComment(e) {
-        const comment = [...this.state.comments];
         const {content: userComment} = e.target.elements;
-        
-        comment.push(userComment.value);
-
+    
         this.setState({
-            comments: comment
+            comments: [...this.state.comments, userComment.value]
         });
 
         this.clearFileds(e);
