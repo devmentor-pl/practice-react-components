@@ -6,18 +6,40 @@ class App extends React.Component {
         firstName: '',
         lastName: '',
         searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
+        users: ['Jan Kowalski', 
+                'Michał Nowak',
+                'Brenden Kirby',
+                'Amy-Louise Holcomb',
+                'Renesmee Osborne',
+                'Jaylan Childs',
+                'Makenzie Talley',
+                'Samual Gunn',
+                'Laurie Reader',
+                'Ella-Mai Kavanagh',
+                'Nawal Devlin',
+                'Vivek Atherton'
+    ],
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const {users, searchQuery} = this.state;
+        if(searchQuery == "") {
+            return users.map(name => {
+                return (
+                    <li onClick={ this.clickHandler }>
+                        { name }
+                    </li>
+                );
+            });
+        } else {
+            const searchedUsers = users.filter((item) => {
+                return item.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+            });
+
+            const foundUsers = searchedUsers.map((item) => <li>{item}</li>)    
+
+            return foundUsers;
+        }
     }
 
     clickHandler = e => {
@@ -27,6 +49,7 @@ class App extends React.Component {
 
     inputChange = e => {
         const {name, value} = e.target;
+
         this.setState({
             [name]: value,
         });
@@ -34,6 +57,8 @@ class App extends React.Component {
 
     render() {
         const { firstName, lastName } = this.state;
+
+
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
@@ -48,8 +73,20 @@ class App extends React.Component {
                     <input type="submit"/>
                 </form>
                 <ul>{ this.renderUsersList() }</ul>
+                <form>
+                    <label htmlFor="searchUser">Search for User: </label>
+                    <input onChange={this.searchHandle} value={this.state.searchQuery}type="text" id="searchUser" />
+                </form>
             </section>
         );
+    }
+
+    searchHandle = (e) => {
+        const inputValue = e.target.value;
+
+        this.setState({
+            searchQuery: inputValue
+        });
     }
 
     submitHandler = e => {
