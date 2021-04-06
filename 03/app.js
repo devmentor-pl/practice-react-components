@@ -4,26 +4,28 @@ import ReactDOM from 'react-dom';
 class Article extends React.Component {
     state = {
         comments: [],
+        textArea: '',
     }
     
 
     submitHandler = (e) =>{
         e.preventDefault();
+
+        this.setState({
+            textArea: e.target.value
+        });
+
         this.addComment(e);
     }
 
     addComment(e) {
-        const {content: userComment} = e.target.elements;
+        const {textArea} = this.state;
     
         this.setState({
-            comments: [...this.state.comments, userComment.value]
+            comments: [...this.state.comments, textArea],
+            textArea: ''
         });
 
-        this.clearFileds(e);
-    }
-
-    clearFileds(e) {
-        return e.target.reset();
     }
 
     showComment() {
@@ -33,6 +35,12 @@ class Article extends React.Component {
         });
 
         return commentJSX;
+    }
+
+    handleComment = (e) => {
+        this.setState({
+            textArea: e.target.value
+        })
     }
     
     render() {
@@ -45,9 +53,9 @@ class Article extends React.Component {
                     <form onSubmit={this.submitHandler }>
                         <div>
                             <label>
-                                <textarea 
+                                <textarea onChange={this.handleComment}
                                     style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" 
+                                    name="content" value={this.state.textArea}
                                 />
                             </label>
                         </div>

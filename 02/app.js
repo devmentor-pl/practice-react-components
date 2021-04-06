@@ -11,7 +11,7 @@ class Counter extends React.Component {
         this.addCounter = this.addCounter.bind(this);
     }
 
-    addCounter() {
+    addCounter = () => {
         this.setState({
             amount: this.state.amount + 1,
         })

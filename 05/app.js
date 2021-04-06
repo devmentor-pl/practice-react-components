@@ -6,11 +6,6 @@ class Weather extends React.Component {
         data: null
     }
 
-    constructor(props){
-        super(props);
-    }
-
-
     getDataWeather() {
         // const {city, description, temp} = this.state.data;
         console.log(this.state.data.city);

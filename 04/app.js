@@ -33,7 +33,7 @@ class App extends React.Component {
             });
         } else {
             const searchedUsers = users.filter((item) => {
-                return item.toLocaleLowerCase().includes(searchQuery);
+                return item.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
             });
 
             const foundUsers = searchedUsers.map((item) => <li>{item}</li>)    
