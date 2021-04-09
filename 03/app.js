@@ -5,27 +5,57 @@ class Article extends React.Component {
     state = {
         comments: [],
     }
-    
+
+    changeHandler = e => {
+        const {tagName, value} = e.target;
+        this.setState({
+            [tagName.toLowerCase()]: value,
+        })
+    }
+
+    submitHandler = e => {
+        e.preventDefault();
+        const commentsCopy = [...this.state.comments];
+        console.log(this.state.comments)
+        this.addComment(commentsCopy);
+        this.setState({
+            comment: '',
+        })
+    }
+
+    addComment(name) {
+        this.setState({
+            comments: [...this.state.textarea, name],
+        })
+    }
+
     render() {
         const {title, body} = this.props;
+        const {comments} = this.state;
+
+        const commentsList = comments.map(comment => {
+            return (
+                <li>{comment}</li>
+            )
+        })
         return (
             <article>
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={this.submitHandler}>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
-                                    name="content" 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
+                                    name="content" value={this.state.textarea} onChange={this.changeHandler}
                                 />
                             </label>
                         </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
+                        <div><input type="submit" value="dodaj komentarz"/></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {commentsList}
                     </ul>
                 </section>
             </article>

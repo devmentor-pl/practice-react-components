@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+const users = ['Jan Kowalski', 'Michał Nowak'];
+
+
 class App extends React.Component {
     state = { 
         firstName: '',
         lastName: '',
         searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
+        users: users,
     }
+
+
 
     renderUsersList() {
         const {users} = this.state;
@@ -32,10 +38,25 @@ class App extends React.Component {
         });
     }
 
+    getFilteredUsers(text) {
+        return users.filter(user => user.toLowerCase().includes(text.toLowerCase()))
+      }
+
+
+    filterUsers(e) {
+        const text = e.currentTarget.value;
+        const filteredUsers = this.getFilteredUsers(text);
+        this.setState({
+            users: filteredUsers
+        })
+    }
+
     render() {
         const { firstName, lastName } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
+                <input type='search' onInput={this.filterUsers.bind(this)}
+                    />
                 <form>
                     <input name="firstName"
                         value={ firstName }
@@ -63,13 +84,13 @@ class App extends React.Component {
                 lastName: '',
             });
         } else {
-            // tutaj komunikat dla użytkownika
+            alert('Wprowadź prawidłowe dane');
         }
     }
 
     addUser(name) {
         this.setState({
-            users: [...this.state.users, name],
+            users: [...users, name],
         });
     }
 
