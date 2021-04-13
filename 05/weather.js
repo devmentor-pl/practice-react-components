@@ -9,21 +9,27 @@ class Weather extends React.Component {
         }
     }
 
+
     componentDidMount() {
         const { lat, lng } = this.props;
-        fetch(`https://api.weatherbit.io/v2.0/current?lang=pl&key=4903c309127f4896b6aadb0549216809&lat=${lat}&lon=${lng}`)
-  .then(response => response.json())
-  .then(data => console.log(data.data[0]));
+        fetch(
+            `https://api.weatherbit.io/v2.0/current?lang=pl&key=4903c309127f4896b6aadb0549216809&lat=${lat}&lon=${lng}`
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({ data: data.data[0] });
+            });
     }
 
     render() {
         const { data } = this.state;
        
         if(data) {
-    
+    console.log(data)
             return<>
-            <h1>informacje o pogodzie...</h1>
-            <p>Pogoda</p>
+            <h1>informacje o aktualnej pogodzie</h1>
+            <p>Jest {data.weather.description} oraz temperatura sięga {data.temp}&#x2103;</p>
+           
             </>
 
         }

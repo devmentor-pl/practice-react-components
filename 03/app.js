@@ -4,28 +4,27 @@ import ReactDOM from 'react-dom';
 class Article extends React.Component {
     state = {
         comments: [],
+        content: '',
     }
 
     changeHandler = e => {
-        const {tagName, value} = e.target;
+        const {value} = e.target;
         this.setState({
-            [tagName.toLowerCase()]: value,
+            content: value,
         })
     }
 
     submitHandler = e => {
         e.preventDefault();
-        const commentsCopy = [...this.state.comments];
-        console.log(this.state.comments)
-        this.addComment(commentsCopy);
+        this.addComment();
         this.setState({
-            comment: '',
+            content: '',
         })
     }
 
-    addComment(name) {
+    addComment() {
         this.setState({
-            comments: [...this.state.textarea, name],
+            comments: [...this.state.comments, this.state.content],
         })
     }
 
@@ -48,7 +47,7 @@ class Article extends React.Component {
                             <label>
                                 <textarea 
                                     style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" value={this.state.textarea} onChange={this.changeHandler}
+                                    name="content" value={this.state.content} onChange={this.changeHandler}
                                 />
                             </label>
                         </div>
