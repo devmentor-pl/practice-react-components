@@ -1,21 +1,11 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
+// Twoim pierwszym wyzwaniem będzie napisać wszystkie metody cuklu życia komponentu jakie do tej pory poznałeś.
 
-// class App extends React.Component {
-//     state = {
-//         counter: 0,
-//     }
-//     render() {
-//         console.log('render');
+// Następnie do każdej z nich dodaj odpowiednie console-ogi, które będą jednoznacznie identyfikować daną metodę np.
 
-//         return <h1>{ this.state.counter }</h1>
-//     }
+// componentDidMount() {
+//     console.log('componentDidMount');
 // }
-
-// ReactDOM.render(<App/>, document.querySelector('#root'));
-
-
-
+// Dodatkowo w odpowiedniej metodzie uruchom setInterval z czasem 5. sekund, który będzie ikrementował state o nazwie counter. Pamiętaj, aby "posprzątać" po tym interwale w odpowiedniej metodzie.
 
 import React from 'react';
 import ReactDOM from 'react-dom';
