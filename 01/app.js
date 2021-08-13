@@ -8,7 +8,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            counter: 1,
+            counter: 0,
         }
     }
 
@@ -25,14 +25,18 @@ class App extends React.Component {
             let {counter} = this.state;
             this.setState({counter: counter + 1});
             console.log(counter + 1);
-            if ((counter + 1) === 10) {
-                clearInterval(this.id);
-                console.log('componentWillUnmount');
+            if (counter === 1000) {
+                this.setState({counter: 1});
             }
         }, 5000);
     }
 
     componentDidUpdate() {
+        console.log('componentDidUpdate');
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.id);
         console.log('componentDidUpdate');
     }
 
