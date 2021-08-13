@@ -37,7 +37,7 @@ class App extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.id);
-        console.log('componentDidUpdate');
+        console.log('componentWillUnmount');
     }
 
 }
