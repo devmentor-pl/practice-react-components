@@ -22,9 +22,9 @@ class Article extends React.Component {
     }
 
     /* komentarz dodany do listy komentarzy */
-    addCommentToList = (e) => {
+    addCommentToList = () => {
         const {textArea} = this.state;
-        if (textArea !== '' && textArea !== undefined) {
+        if (textArea !== '' && typeof textArea !== undefined) {
             this.setState({
                 comments: [...this.state.comments, textArea],
                 textArea: '',
