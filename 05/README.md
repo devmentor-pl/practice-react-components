@@ -48,7 +48,7 @@ Przykładowe współrzędne to:
     }
 
     // nic nie renderuj
-    retur null;
+    return null;
  }
  ```
 

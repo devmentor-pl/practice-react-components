@@ -6,7 +6,7 @@
 # `#01` React: Komponenty
 
 
-Twoim pierwszym wyzwaniem będzie napisać wszystkie metody cuklu życia komponentu jakie do tej pory poznałeś.
+Twoim pierwszym wyzwaniem będzie napisać wszystkie metody cyklu życia komponentu jakie do tej pory poznałeś.
 
 Następnie do każdej z nich dodaj odpowiednie `console`-ogi, które będą jednoznacznie identyfikować daną metodę np.
 
@@ -18,7 +18,7 @@ componentDidMount() {
 
 Dodatkowo w odpowiedniej metodzie uruchom `setInterval` z czasem 5. sekund, który będzie ikrementował `state` o nazwie `counter`. Pamiętaj, aby "posprzątać" po tym interwale w odpowiedniej metodzie.
 
-Zwróć uwagę, jakie metody są po sobie wywoływane i w którym momencie. Przyjrzyj się też metodą, które są wielokrotnie uruchamiane. 
+Zwróć uwagę, jakie metody są po sobie wywoływane i w którym momencie. Przyjrzyj się też metodom, które są wielokrotnie uruchamiane. 
 
 ## Webpack
 
