@@ -16,7 +16,7 @@ class App extends React.Component {
             return <li onClick={this.clickHandler}>{name}</li>;
         });*/
         return users.flatMap((name) =>
-            name.includes(searchQuery) ? (
+            name.toLowerCase().includes(searchQuery.toLowerCase()) ? (
                 <li onClick={this.clickHandler}>{name}</li>
             ) : null
         );

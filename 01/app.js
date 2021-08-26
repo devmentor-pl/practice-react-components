@@ -22,12 +22,11 @@ class App extends React.Component {
         }, 5000);
     }
 
-    componentDiDUpdate(PrevState) {
-        if (this.state.counter !== PrevState) {
+    componentDidUpdate(PrevState) {
+        if (this.props.counter !== PrevState) {
             console.log("componentDiDUpdate");
         }
     }
-    /* jak zrobic zeby odpalil sie componentDiDUpdate?*/
 
     componentWillUnmount() {
         console.log("componentWillUnmount");

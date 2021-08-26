@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Weather from "./Weather";
 
 class App extends React.Component {
     constructor(props) {
@@ -40,11 +41,11 @@ class App extends React.Component {
             return (
                 <>
                     <h1>informacje o pogodzie...</h1>
-                    <p>
-                        W miescie {this.state.data.city} jest obecnie{" "}
-                        {this.state.data.conditions.toLowerCase()}, a
-                        temperatura wynosi {this.state.data.temp}
-                    </p>
+                    <Weather
+                        city={this.state.data.city}
+                        conditions={this.state.data.conditions}
+                        temp={this.state.data.temp}
+                    />
                 </>
             );
         }
@@ -55,3 +56,10 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.querySelector("#root"));
+
+/* 
+<p>
+                        W miescie {this.state.data.city} jest obecnie{" "}
+                        {this.state.data.conditions.toLowerCase()}, a
+                        temperatura wynosi {this.state.data.temp}
+                    </p>*/

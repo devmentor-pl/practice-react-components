@@ -21,8 +21,8 @@ class Article extends React.Component {
         e.preventDefault();
         this.setState({
             comments: [...this.state.comments, this.state.comment],
+            comment: " ",
         });
-        this.setState((this.state.comment = ""));
     }
 
     render() {
