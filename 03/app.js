@@ -2,8 +2,45 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class Article extends React.Component {
-    state = {
-        comments: [],
+    constructor(props) {
+        super(props);
+        this.state = {
+            comments: [],
+            comment: '',
+        }
+    }
+
+    typeComment = e => {
+        const { value } = e.target;
+
+        this.setState({
+            comment: value,
+        })
+    }
+
+    addNewComment = e => {
+        e.preventDefault();
+        const { comments, comment } = this.state;
+
+        this.setState({
+            comments: [...comments, comment],
+        })
+
+        return (
+            this.newListElement()
+        )
+    }
+
+    newListElement = e => {
+        return (
+                this.state.comments.map(comment => {
+                    return (
+                        <li>
+                            { comment }
+                        </li>
+                    )
+                })
+        )
     }
     
     render() {
@@ -13,18 +50,23 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={ this.addNewComment }>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
-                                    name="content" 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
+                                    name="content"
+                                    onChange={ this.typeComment }
+                                    value={ this.state.comment }
                                 />
                             </label>
                         </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
+                        <div><input 
+                                type="submit" 
+                                value="dodaj komentarz"/></div>
                     </form>
                     <ul>
+                        { this.newListElement() }
                         {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
                     </ul>
                 </section>
