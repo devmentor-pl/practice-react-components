@@ -50,12 +50,11 @@ class Article extends React.Component {
         const {comment} = this.state;
         if (comment.length > 5) {
             this.addComment(`${comment}`);
-            this.setState({comment: ''})
         } else {alert('Comment should contain at least 5 characters')}
     }
 
     addComment = (item) => {
-        this.setState({comments: [...this.state.comments, item]})
+        this.setState({comments: [...this.state.comments, item], comment: ''});
     }
 }
 
