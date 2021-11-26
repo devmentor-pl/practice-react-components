@@ -18,7 +18,7 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form onClick = { this.submitHandler } >
+                    <form onSubmit = { this.submitHandler } >
                         <div>
                             <label>
                                 <textarea
