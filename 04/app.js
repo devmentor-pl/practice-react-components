@@ -1,3 +1,4 @@
+import { map } from 'async';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,14 +11,31 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
+        const { users, searchQuery } = this.state;
+        if(searchQuery === '') {
+            return this.mapUserList(users, 'map')
+        }
+        else {
+            return this.mapUserList(users, 'filter', searchQuery);
+        }
+    }
+
+    mapUserList = (arr, myType, query) => {
+        if(myType === 'map') {
+            return arr.map(name => {
+                return (
                 <li onClick={ this.clickHandler }>
                     { name }
                 </li>
-            );
-        });
+                )
+            })
+        } else if(myType === 'filter') {
+            return arr.filter(name => { 
+                if(name.includes(query)) {
+                    return name;
+                }
+            })
+        }
     }
 
     clickHandler = e => {
@@ -32,9 +50,21 @@ class App extends React.Component {
         });
     }
 
+    filterName = e => {
+        const { value } = e.target;
+        this.setState({
+            searchQuery: value,
+        });
+    }
+
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
+            <>
+            <section style={{ display: 'flex' }}>
+                <p>Filtrowanie: </p>
+                <input name="filter" value={ searchQuery } onChange={ this.filterName }></input>
+            </section>
             <section onSubmit={ this.submitHandler }>
                 <form>
                     <input name="firstName"
@@ -49,6 +79,7 @@ class App extends React.Component {
                 </form>
                 <ul>{ this.renderUsersList() }</ul>
             </section>
+            </>
         );
     }
 
