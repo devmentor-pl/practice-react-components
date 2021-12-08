@@ -72,7 +72,6 @@ class App extends React.Component {
     }
 
     getValues = e => {
-
         this.setState({
             searchQuery: e.target.value,
         })
