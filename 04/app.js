@@ -12,8 +12,6 @@ class App extends React.Component {
     renderUsersList() {
         const {users, searchQuery} = this.state;
 
-        // if(user.indexOf() === )
-
         if (searchQuery === '') {
             return users.map(name => {
                 return (
@@ -68,12 +66,12 @@ class App extends React.Component {
                 <ul>{ this.renderUsersList() }</ul>
                 <input name ="search"
                     value = {searchQuery}
-                    onChange = {this.filterDatas}></input>
+                    onChange = {this.getValues}></input>
             </section>
         );
     }
 
-    filterDatas = e => {
+    getValues = e => {
 
         this.setState({
             searchQuery: e.target.value,
