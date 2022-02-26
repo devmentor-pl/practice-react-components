@@ -5,9 +5,15 @@ class Counter extends React.Component {
     state = {
         amount: 0,
     }
-    
+
     render() {
-        return <button>click me ({ this.state.amount })</button>
+        const {amount} = this.state;
+        return <button onClick={this.incrementValue}>click me ({ amount })</button>
+    }
+
+    incrementValue = () => {
+        const {amount} = this.state;
+        this.setState({amount: amount + 1})
     }
 }
 
