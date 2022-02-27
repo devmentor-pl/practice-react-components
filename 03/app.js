@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 class Article extends React.Component {
     state = {
-        comments: [''],
+        comments: [],
     }
 
     // z tym zadaniem mam problem, po wpisywaniu komentarza, od razu renderuje mi to co wpisuje na ekran
@@ -12,16 +12,15 @@ class Article extends React.Component {
 
     renderCommentsList() {
         const {comments} = this.state;
-        return (comments.map(item => {
+        return comments.map(item => {
             return(
                 <li>{item}</li>
                 )
-            })
-        )
+         })
     }
 
     changeHandler = e => { // aktualizuje wartosc w state.comments
-        this.setState({comments:[e.target.value]})
+        this.setState({comments:[e.target.value]}) //pewnie tutaj cos robie zle ale nie wiem co
     }
 
     submmitHandler = e => {
