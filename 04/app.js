@@ -2,22 +2,47 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class App extends React.Component {
-    state = { 
+    state = {
         firstName: '',
         lastName: '',
         searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
+        users: ['Jan Kowalski', 'Michał Nowak','Cecylia Zator','Krystain Wozny', 'Iwona Szalona', 'Anna Bidog'],
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
+        const {users,searchQuery} = this.state;
+        if(searchQuery === ''){
+            return users.map(name => {
+                return (
+                    <li onClick={ this.clickHandler }>
+                        { name }
+                    </li>
+                );
+            });
+        }
+        else {
+            // this.showFilterList(); // ponizej metoda osobna ale nie działa, cos z wywołaniem mam nie tak, ale nie wiem co zle robie
+            return users.filter(el => el.includes(searchQuery)).map(name => {
+                return (
+                    <li>{ name }</li>
+                );
+            })
+        }
+    }
+
+    filterHandler = e => {
+        const text = e.target.value;
+        this.setState({searchQuery:text})
+
+    }
+
+    showFilterList(){
+        const{searchQuery,users} = this.state;
+        return users.filter(el => el.includes(searchQuery)).map(name => {
             return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
+                <li>{ name }</li>
             );
-        });
+        })
     }
 
     clickHandler = e => {
@@ -48,6 +73,10 @@ class App extends React.Component {
                     <input type="submit"/>
                 </form>
                 <ul>{ this.renderUsersList() }</ul>
+                <div>
+                    <p>Filtrowanie listy uzytkownikow:</p>
+                    <input name="filter" onChange={this.filterHandler}/>
+                </div>
             </section>
         );
     }
