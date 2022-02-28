@@ -21,24 +21,19 @@ class App extends React.Component {
             });
         }
         else {
-            // this.showFilterList(); // ponizej metoda osobna ale nie działa, cos z wywołaniem mam nie tak, ale nie wiem co zle robie
-            return users.filter(el => el.includes(searchQuery)).map(name => {
-                return (
-                    <li>{ name }</li>
-                );
-            })
+            return this.showFilterList();
         }
     }
 
     filterHandler = e => {
         const text = e.target.value;
         this.setState({searchQuery:text})
-
     }
 
     showFilterList(){
         const{searchQuery,users} = this.state;
-        return users.filter(el => el.includes(searchQuery)).map(name => {
+        const filteredList = users.filter(el => el.toLowerCase().includes(searchQuery.toLowerCase()));
+        return filteredList.map(name => {
             return (
                 <li>{ name }</li>
             );
