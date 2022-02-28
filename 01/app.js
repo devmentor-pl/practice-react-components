@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class App extends React.Component {
-    state = { // kazda zmiana state powoduje uruchomienie aktualizacji komponentu
+    state = { // kazda zmiana state powoduje ponowne renderowanie komponentu
         counter: 0,
     }
     render() {
