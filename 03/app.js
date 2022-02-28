@@ -6,10 +6,6 @@ class Article extends React.Component {
         comments: [],
     }
 
-    // z tym zadaniem mam problem, po wpisywaniu komentarza, od razu renderuje mi to co wpisuje na ekran
-    // w f-cji changeHandler pobieram wpisana zawartosc i aktualizuje setState i mam render
-    // nie wiem jak to zrobic aby dopiero po kliknicu w button pokazywalo komentarze
-
     renderCommentsList() {
         const {comments} = this.state;
         return comments.map(item => {
@@ -20,7 +16,10 @@ class Article extends React.Component {
     }
 
     changeHandler = e => { // aktualizuje wartosc w state.comments
-        this.setState({comments:[e.target.value]}) //pewnie tutaj cos robie zle ale nie wiem co
+        const {name,value} = e.target;
+        this.setState({
+            [name]:value,
+        });
     }
 
     submmitHandler = e => {
