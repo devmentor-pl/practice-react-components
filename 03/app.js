@@ -15,20 +15,35 @@ class Article extends React.Component {
          })
     }
 
-    changeHandler = e => { // aktualizuje wartosc w state.comments
+    changeHandler = e => { 
         const {name,value} = e.target;
         this.setState({
-            [name]:value,
+            [name]:value, // dynamiczne dodanie content:value do state 
         });
     }
 
     submmitHandler = e => {
         e.preventDefault();
+        const {content}=this.state;
+        if(content){
+            this.addComment(content);
+            this.setState({
+                content:'' // czyszczenie pola 
+            });
+        }
+        else {
+            alert('Aby dodać komentarz musisz coś napisać')
+        }
+    }
+
+    addComment(content){
+        this.setState({
+            comments: [...this.state.comments, content],//kopiujemy zawartość i dodajemy nowy element
+        });
     }
 
     render() {
         const {title, body} = this.props;
-        const {comments} = this.state;
         return (
             <article>
                 <h1>{ title }</h1>
@@ -39,7 +54,7 @@ class Article extends React.Component {
                             <label>
                                 <textarea
                                     style={{ "min-width": "300px", "min-height": "120px" }}
-                                    name="content" value={comments} onChange={this.changeHandler}
+                                    name="content" value={this.state.content} onChange={this.changeHandler}
                                 />
                             </label>
                         </div>
