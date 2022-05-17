@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 class Article extends React.Component {
     state = {
+        text: '',
         comments: [],
     }
     
@@ -13,23 +14,41 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={ this.submitChange }>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
                                     name="content" 
+                                    onChange={ this.inputChange }
                                 />
                             </label>
                         </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
+                        <div><input type="submit" value="dodaj komentarz"/></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.state.comments.map( comment => <li>{comment}</li> )}
                     </ul>
                 </section>
             </article>
         )
+    }
+
+    inputChange = (e) => {
+        this.setState({
+            text: e.target.value
+        });
+    }
+
+    submitChange = (e) => {
+        e.preventDefault();
+        this.setState({
+            comments: [...this.state.comments, this.state.text]
+        }, () => this.clearTextArea(e));
+    }
+
+    clearTextArea(e) {
+        e.target.content.value = '';
     }
 }
 
