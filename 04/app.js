@@ -12,11 +12,16 @@ class App extends React.Component {
     renderUsersList() {
         const {users} = this.state;
         const {searchQuery} = this.state;
+
         if(searchQuery) {
             const filteredUsers= users.filter((user) => {
-                return user.includes(searchQuery);
-            })
+                if(user.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    return user;
+                }
+            });
+
             return filteredUsers.map(name => {
+
                 return (
                     <li onClick={ this.clickHandler }>
                         { name }

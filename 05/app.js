@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 
 class Weather extends React.Component {
     state= {
-        key: '4fd9bc97df8e4a06b44faf1c0bc1495f',
         latitude: this.props.lat,
         longitude: this.props.lng,
         weather: null,
-    }    
+    }
+
+    key= '4fd9bc97df8e4a06b44faf1c0bc1495f';
     
     render() {
         if(this.state.weather) {
@@ -26,8 +27,8 @@ class Weather extends React.Component {
     }
 
     componentDidMount() {
-        const { key, latitude, longitude } = this.state;
-        const promise = fetch(`https://api.weatherbit.io/v2.0/current?key=${key}&lat=${latitude}&lon=${longitude}`);
+        const { latitude, longitude } = this.state;
+        const promise = fetch(`https://api.weatherbit.io/v2.0/current?key=${this.key}&lat=${latitude}&lon=${longitude}`);
         promise.then(resp => resp.json())
                 .then(resp => this.setState({weather: resp.data[0]}));
     }

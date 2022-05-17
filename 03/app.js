@@ -44,7 +44,7 @@ class Article extends React.Component {
         e.preventDefault();
         this.setState({
             comments: [...this.state.comments, this.state.text]
-        }, this.clearTextArea(e));
+        }, () => this.clearTextArea(e));
     }
 
     clearTextArea(e) {
