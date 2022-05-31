@@ -58,7 +58,7 @@ class Article extends React.Component {
             this.addComment(`${content}`)
             this.setState({content: ''})
         } else {
-            console.log('Wpisz komentarz')
+            console.alert('Wpisz komentarz')
         }
     }
     
