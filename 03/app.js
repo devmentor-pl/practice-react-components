@@ -1,11 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Form from './Form';
 
 class Article extends React.Component {
     state = {
         comments: [],
-    }
-    
+        content: "",
+    };
+
+    handleChange = (e) => {
+        this.setState({ content: e.target.value });
+    };
+
+    handleSubmit = () => {
+        if (this.state.content) {
+            this.addComments(this.state.content);
+            this.setState({ content: '' });
+        } else {
+            alert('Add Comment to the field!');
+        };
+    };
+
+    addComments = (comment) => {
+        this.setState({ comments: [...this.state.comments, comment] });
+    };
+
     render() {
         const {title, body} = this.props;
         return (
@@ -13,30 +32,20 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
-                        <div>
-                            <label>
-                                <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
-                                    name="content" 
-                                />
-                            </label>
-                        </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
-                    </form>
+                    <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit} commentValue={this.state.content} />
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.state.comments.map(el => <li>{el}</li>)}
                     </ul>
                 </section>
             </article>
         )
-    }
-}
+    };
+};
 
 ReactDOM.render(
-    <Article 
+    <Article
         title="Programowanie jest super!"
         body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis justo ipsum, eleifend vel quam eget, lobortis posuere arcu. In vitae eros in nisi sodales aliquam..."
-    />, 
+    />,
     document.querySelector('#root')
 );

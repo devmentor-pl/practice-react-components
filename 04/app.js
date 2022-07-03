@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class App extends React.Component {
-    state = { 
+    state = {
         firstName: '',
         lastName: '',
         searchQuery: '',
@@ -10,7 +10,13 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
+        const { users, searchQuery } = this.state;
+        if (searchQuery) {
+            return users.filter(el => {
+                return el.toLowerCase().includes(searchQuery.toLowerCase());
+            }).map(el => <li onClick={this.clickHandler}>{el}</li>);
+        };
+
         return users.map(name => {
             return (
                 <li onClick={ this.clickHandler }>
@@ -33,7 +39,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
@@ -47,6 +53,7 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                <input onChange={this.inputChange} type="text" name="searchQuery" value={searchQuery} />
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
