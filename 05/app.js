@@ -3,21 +3,28 @@ import ReactDOM from 'react-dom';
 
 class Weather extends React.Component {
     state = {  } 
-    componentDidMount() {
-        console.log('componentDidMount')
-        console.log(this.props)
-        const {lat, lng} = this.props
-        console.log(lat +' '+ lng)
 
-        fetch('https://randomuser.me/api?results=2')
+    fetchData() {
+        return fetch('https://randomuser.me/api?results=2')
         .then(res => {
             console.log(res)
             if(res.ok) {
                 return res.json()
             }
             return Promise.reject('Error')
-        })
-        .then(data => console.log(data))
+        })       
+    }
+    componentDidMount() {
+        console.log('componentDidMount')
+        console.log(this.props)
+        const {lat, lng} = this.props
+        console.log(lat +' '+ lng)
+
+        const getData = this.fetchData()
+        getData
+            .then(data => console.log(data))
+            .catch(err => console.log(err.message)) 
+
     }
     render() { 
         console.log(this.props)
