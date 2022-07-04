@@ -9,7 +9,6 @@ class Weather extends React.Component {
     fetchData(URL) {
         return fetch(URL)
             .then(res => {
-                console.log(res)
                 if (res.ok) {
                     return res.json()
                 }
@@ -17,13 +16,10 @@ class Weather extends React.Component {
             })
     }
     componentDidMount() {
-        console.log('componentDidMount')
-        console.log(this.props)
         const { lat, lng } = this.props
-        console.log(lat + ' ' + lng)
+        console.log('props: ' + lat + ' ' + lng)
 
         const KEY = process.env.REACT_KEY
-        console.log(KEY)
         const URL = `https://api.weatherbit.io/v2.0/current?key=${KEY}&lang=pl&lat=${lat}&lon=${lng}&units=M`
 
         const getData = this.fetchData(URL)
@@ -36,14 +32,21 @@ class Weather extends React.Component {
 
     }
     render() {
-        console.log(this.props)
         const { data } = this.state
         if (data) {
             return (
                 <div>
                     <h1>Weather</h1>
                     {
-
+                        <div>
+                            <div><b>Miasto</b>: {this.state.data[0].city_name} </div>
+                            <div><b>Data pogody</b>: {this.state.data[0].ob_time} </div>
+                            <div><b>Ciśnienie</b>: {this.state.data[0].pres} <span>hPa</span></div>
+                            <div><b>Temperatura</b>: {this.state.data[0].temp} <span>°C</span></div>
+                            <div><b>Wschód słońca</b>: {this.state.data[0].sunrise}</div>
+                            <div><b>Zachód słońca</b>: {this.state.data[0].sunset}</div>
+                            <div><b>Opis</b>: {this.state.data[0].weather.description}</div>
+                        </div>
                     }
                 </div>
             )

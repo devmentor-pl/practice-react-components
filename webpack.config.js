@@ -30,6 +30,7 @@ module.exports = {
         ]
         // obecnie brak dodatkowych ustawień
     },
+    devtool: 'inline-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: `./${taskNumber}/index.html`,
