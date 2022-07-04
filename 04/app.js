@@ -11,7 +11,9 @@ class App extends React.Component {
 
     renderUsersList() {
         const {users} = this.state;
-        return users.map(name => {
+        return users
+        .filter(name => name.toUpperCase().includes(this.state.searchQuery.toUpperCase()))
+        .map(name => {
             return (
                 <li onClick={ this.clickHandler }>
                     { name }
@@ -32,8 +34,18 @@ class App extends React.Component {
         });
     }
 
+    filterData = e => {
+        this.setState({ searchQuery: e.target.value })
+
+        // test filter users
+        const usersFilter = this.state.users.filter(user => {
+            return user.toLocaleUpperCase().includes(this.state.searchQuery.toLocaleUpperCase())
+        })
+        console.log( usersFilter )
+    }
+
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
@@ -47,6 +59,8 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                <br />
+                <input type="text" value='' onChange={ this.filterData } value={searchQuery} placeholder='Enter search name'/>
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
