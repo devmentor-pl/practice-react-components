@@ -20,6 +20,10 @@ class Weather extends React.Component {
         const {lat, lng} = this.props
         console.log(lat +' '+ lng)
 
+        const KEY = process.env.REACT_KEY
+        console.log(KEY)
+        const URL = `https://api.weatherbit.io/v2.0/current?key=${KEY}&lang=pl&lat=${lat}&lon=${lng}&units=M`
+        
         const getData = this.fetchData()
         getData
             .then(data => console.log(data))
