@@ -11,9 +11,9 @@ class App extends React.Component {
 
     renderUsersList() {
         const {users, searchQuery} = this.state;
-                
-        if (searchQuery.trim()) {                        
-            return this.renderList(this.getFilteredList());
+        const queryOptimized = searchQuery.trim().toLowerCase();
+        if (queryOptimized) {                        
+            return this.renderList(this.getFilteredList(queryOptimized));
         }
          
         return this.renderList(users);        
@@ -29,10 +29,10 @@ class App extends React.Component {
         });
     }
 
-    getFilteredList() {
-        const {users, searchQuery} = this.state;
+    getFilteredList(queryOptimized) {
+        const {users} = this.state;
 
-        return users.filter(name => name.includes(searchQuery)); 
+        return users.filter(name => name.toLowerCase().includes(queryOptimized)); 
     }
 
     clickHandler = e => {

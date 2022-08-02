@@ -29,7 +29,7 @@ class Article extends React.Component {
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        { this.updateCommentsList() }
+                        { this.renderCommentsList() }
                     </ul>
                 </section>
             </article>
@@ -44,9 +44,10 @@ class Article extends React.Component {
         e.preventDefault();
 
         const {comments, comment} = this.state;
+        const newComment = comment.trim();
         
-        if (comment.trim()) {
-            const currComments = [...comments, comment];
+        if (newComment) {
+            const currComments = [...comments, newComment];
             this.setState({ comments: currComments })
         } 
         else {
@@ -57,7 +58,7 @@ class Article extends React.Component {
         
     }
 
-    updateCommentsList = () => this.state.comments.map(comment => <li>{ comment }</li>)        
+    renderCommentsList = () => this.state.comments.map(comment => <li>{ comment }</li>)        
 
     clearCommentInput = () => {
         this.setState({ comment: '' })

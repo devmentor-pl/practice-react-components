@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import WeatherProvider from './WeatherProvider';
 
 class Weather extends React.Component {
     state = {
@@ -7,9 +8,8 @@ class Weather extends React.Component {
     }
 
     constructor (props) {
-        super(props);
-        this.baseUrl = 'https://api.weatherbit.io/v2.0/current'
-        this.key = '730d1b62752a45d69ba4fa85b948cfd8';
+        super(props);      
+        this.weatherAPI = new WeatherProvider();
     }
 
     render() {         
@@ -31,31 +31,14 @@ class Weather extends React.Component {
         return null;
     }
 
-    componentDidMount() {        
-        const url = this.getUrl();                                    
+    componentDidMount() {                                                  
+        const {lat, lon, lang} = this.props;
 
-        this.loadData(url)
+        this.weatherAPI.getData(lat, lon, lang)        
             .then(resp => this.displayWeather(resp.data[0]))
-            .catch(err => console.log(err))
-            .finally(() => console.log('Zakończono odczytywanie API'));                
+            .catch(err => alert(err));
     }
         
-    getUrl() {
-        const {lat, lon, lang='eng'} = this.props;
-        return `${this.baseUrl}?key=${this.key}&lat=${lat}&lon=${lon}&lang=${lang}`;
-    }
-
-    loadData(apiUrl) {    
-        return fetch(apiUrl)
-            .then(resp => {
-                if (resp.ok) { return resp.json();}
-                if(resp.status === 429) {
-                    return Promise.reject('LIMIT EXCEEDED');
-                }            
-                return Promise.reject(`Kod błędu: ${resp.status}`);
-            })        
-    }
-
     displayWeather(respData) {
         const {lat, lon, temp, city_name, weather : {description} } = respData; 
 
@@ -68,7 +51,7 @@ class Weather extends React.Component {
                 city_name
             }
         })
-    }        
+    } 
 }
 
 ReactDOM.render(<Weather lat={52.232222} lon={21.008333} lang = {'pl'} />, document.querySelector('#root'));
