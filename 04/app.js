@@ -10,20 +10,32 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
+        const {users, searchQuery} = this.state;
+
+        if(searchQuery === '') {
+            return this.rednerUsers(users);
+        } else {
+            const usersList = users.filter(u => u.toLowerCase().includes(searchQuery.toLowerCase()));
+            return this.rednerUsers(usersList);
+        }
+    }
+
+    rednerUsers(users) {
         return users.map(name => {
             return (
-                <li onClick={ this.clickHandler }>
+                <li onClick={ () => this.removeUser(name) }>
                     { name }
                 </li>
             );
         });
     }
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+
+
+    // clickHandler = (userName) => {
+    //     // const {innerText: userName} = e.target;
+    //     this.removeUser(userName);
+    // }
 
     inputChange = e => {
         const {name, value} = e.target;
@@ -33,9 +45,11 @@ class App extends React.Component {
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
+        console.log(searchQuery);
         return (
             <section onSubmit={ this.submitHandler }>
+                <input name="searchQuery" value={searchQuery} onChange={this.inputChange} />
                 <form>
                     <input name="firstName"
                         value={ firstName }
