@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 class App extends React.Component {
     state = { 
@@ -10,32 +10,40 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
+        const {users, searchQuery} = this.state
+
+        if(searchQuery === '') {
+            return this.renderUsers(users)
+        } else {
+            const usersList = users.filter(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
+            return this.renderUsers(usersList)
+        }
+    }
+
+    renderUsers(users) {
         return users.map(name => {
             return (
-                <li onClick={ this.clickHandler }>
+                <li onClick={ () => this.removeUser(name) }>
                     { name }
                 </li>
             );
         });
     }
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+
 
     inputChange = e => {
-        const {name, value} = e.target;
+        const {name, value} = e.target
         this.setState({
             [name]: value,
         });
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state
         return (
             <section onSubmit={ this.submitHandler }>
+                
                 <form>
                     <input name="firstName"
                         value={ firstName }
@@ -47,24 +55,25 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                <input name="searchQuery" 
+                value={searchQuery} 
+                onChange={this.inputChange} />
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
     }
 
     submitHandler = e => {
-        e.preventDefault();
+        e.preventDefault()
 
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName } = this.state
         if(firstName && lastName) {
-            this.addUser(`${firstName} ${lastName}`);
+            this.addUser(`${firstName} ${lastName}`)
             this.setState({
                 firstName: '',
                 lastName: '',
             });
-        } else {
-            // tutaj komunikat dla użytkownika
-        }
+        } 
     }
 
     addUser(name) {
@@ -84,4 +93,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App/>, document.querySelector('#root'));
+ReactDOM.render(<App/>, document.querySelector('#root'))
