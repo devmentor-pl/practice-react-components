@@ -9,9 +9,9 @@ class Article extends React.Component {
 
     renderCommentsList() {
         const {comments} = this.state
-        return comments.map(comment => {
+        return comments.map((comment, index) => {
             return (
-                <li>{ comment }</li>
+                <li key={index}>{ comment }</li>
             )
         })
     }

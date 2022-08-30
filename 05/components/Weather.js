@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './styles/styles'
+import {load} from './provider'
 
 class Weather extends React.Component {
     state = {
@@ -8,17 +9,11 @@ class Weather extends React.Component {
     
     componentDidMount() {
         const {lat, lng} = this.props
-        const key = '7950d7e4e3c64903a92dfc9c3069c67c'
-
-        const promise = fetch(`https://api.weatherbit.io/v2.0/current?key=${key}&lat=${lat}&lon=${lng}&lang=pl`)
-
-        promise
-            .then(resp => {
-                if(resp.ok) { return resp.json() }
-            })
-            .then(data => {
-                console.log(data)
-                this.setState({data: data.data})
+        
+        load(lat, lng)
+            .then(object => {
+                console.log(object)
+                this.setState({data: object.data})
             })
             .catch(err => console.error(err))
     }

@@ -15,17 +15,17 @@ class App extends React.Component {
         .filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()))
         .map(name => {
             return (
-                <li onClick={ this.clickHandler }>
+                <li onClick={ () => this.removeUser(name) }>
                     { name }
                 </li>
             );
         });
     }
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+    //clickHandler = e => {
+    //    const {innerText: userName} = e.target;
+    //    this.removeUser(userName);
+    //}
 
     inputChange = e => {
         const {name, value} = e.target;
