@@ -10,18 +10,21 @@ class App extends React.Component {
   };
 
   renderUsersList() {
-    const { users, searchQuery} = this.state;
-    return users.filter((val) =>{ if (searchQuery === '') {
-        return val
-    } else if(val.toLowerCase().includes(searchQuery.toLowerCase())){
-        return val
-    }
-}).map((name) => {
-      return <li onClick={this.clickHandler}>{name}</li>;
-    });
+    const { users, searchQuery } = this.state;
+    return users
+      .filter((val) => {
+        if (searchQuery === "") {
+          return val;
+        } else if (val.toLowerCase().includes(searchQuery.toLowerCase())) {
+          return val;
+        }
+      })
+      .map((name) => {
+        return <li onClick={this.clickHandler}>{name}</li>;
+      });
   }
   queryHandler = (e) => {
-    const {value} = e.target
+    const { value } = e.target;
     this.setState({
       searchQuery: value,
     });
