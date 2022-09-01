@@ -10,14 +10,29 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
+        const {users, searchQuery} = this.state;
+        const queryOptimized = searchQuery.trim().toLowerCase();
+        if (queryOptimized) {                        
+            return this.renderList(this.getFilteredList(queryOptimized));
+        }
+         
+        return this.renderList(users);        
+    }
+
+    renderList(list) {
+        return list.map(name => {
             return (
                 <li onClick={ this.clickHandler }>
                     { name }
                 </li>
             );
         });
+    }
+
+    getFilteredList(queryOptimized) {
+        const {users} = this.state;
+
+        return users.filter(name => name.toLowerCase().includes(queryOptimized)); 
     }
 
     clickHandler = e => {
@@ -36,6 +51,10 @@ class App extends React.Component {
         const { firstName, lastName } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
+                <input name="searchQuery"
+                    value = { this.state.searchQuery }
+                    onChange = { this.inputChange }
+                    />
                 <form>
                     <input name="firstName"
                         value={ firstName }

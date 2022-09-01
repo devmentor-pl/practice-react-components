@@ -3,34 +3,67 @@ import ReactDOM from 'react-dom';
 
 class Article extends React.Component {
     state = {
+        comment: '',
         comments: [],
     }
     
     render() {
         const {title, body} = this.props;
+        const {comment} = this.state;
         return (
             <article>
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={ this.submitComment }>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
-                                    name="content" 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
+                                    name="content"
+                                    value={ comment }
+                                    onChange = { this.commentChange }
                                 />
                             </label>
                         </div>
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        { this.renderCommentsList() }
                     </ul>
                 </section>
             </article>
         )
     }
+
+    commentChange = (e) => {     
+        this.setState({ comment : e.target.value })
+    }
+
+    submitComment = (e) => {
+        e.preventDefault();
+
+        const {comments, comment} = this.state;
+        const newComment = comment.trim();
+        
+        if (newComment) {
+            const currComments = [...comments, newComment];
+            this.setState({ comments: currComments })
+        } 
+        else {
+            alert('Wpisz treść komentarza');        
+        }
+
+        this.clearCommentInput();
+        
+    }
+
+    renderCommentsList = () => this.state.comments.map(comment => <li>{ comment }</li>)        
+
+    clearCommentInput = () => {
+        this.setState({ comment: '' })
+    }
+    
 }
 
 ReactDOM.render(
