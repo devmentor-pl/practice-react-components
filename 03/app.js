@@ -8,15 +8,11 @@ class Article extends React.Component {
         
     }
 
-    clickHandler = event => {
-        console.log('click!', this);
-    }
-
     renderCommentsList() {
         const {comments} = this.state;
         return comments.map(comment => {
             return(
-                <li onClick={this.clickHandler}>{comment}</li>
+                <li>{comment}</li>
             );
         });
     }
