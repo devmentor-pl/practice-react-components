@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class App extends React.Component {
-    /*state = {
-        counter: 0,
-    }*/
-
     constructor(props) {
         super(props);
         this.state = { counter: 8 }
@@ -27,7 +23,7 @@ class App extends React.Component {
                 console.log(this.state.counter)
         }) 
     }
-
+    //poniżej rozwiązanie dodatkowego zadania - ustawienie setInterval
     /*componentDidMount() {
         console.log('componentDidMount');
         this.id = setInterval(() => {

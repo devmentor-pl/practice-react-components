@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 class Article extends React.Component {
     state = {
         content: '',
-        comments: [],
-        
+        comments: [],       
     }
 
     renderCommentsList() {
@@ -68,7 +67,6 @@ addComment(comment) {
         comments: [...this.state.comments, comment],
     })
 }
-
 }
 
 
