@@ -11,18 +11,24 @@ class App extends React.Component {
 
   renderUsersList() {
     const { users, searchQuery } = this.state;
-    return users
-      .filter((val) => {
-        if (searchQuery === "") {
-          return val;
-        } else if (val.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return val;
-        }
-      })
-      .map((name) => {
-        return <li onClick={this.clickHandler}>{name}</li>;
-      });
+    if (searchQuery === "") {
+      return this.getJSXStructure(users);
+    } else {
+      return this.getFilteredUsers(users, searchQuery);
+    }
   }
+
+  getJSXStructure = (arr) => {
+    return arr.map((name) => {
+      return <li>{name}</li>;
+    });
+  };
+  getFilteredUsers = (arr, bar) => {
+    return arr.filter((val) => {
+      return val.toLowerCase().includes(bar.toLowerCase());
+    });
+  };
+
   queryHandler = (e) => {
     const { value } = e.target;
     this.setState({

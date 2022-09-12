@@ -21,7 +21,7 @@ class App extends React.Component {
         counter: counter + 5,
       });
       if (counter >= 10) {
-        this.componentWillUnmount();
+        clearInterval(this.id);
       }
       console.log("Component did mount!");
     }, 2000);
@@ -30,7 +30,6 @@ class App extends React.Component {
     console.log("Component did update!");
   }
   componentWillUnmount() {
-    clearInterval(this.id);
     console.log("Component did unmount!");
   }
 }

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-class WeatherAPI extends Component {
+class Weather extends Component {
   state = {
     data: null,
   };
   constructor(props, lat, long) {
     super(props);
     (this.lat = lat), (this.long = long);
-    this.key = "1afb275531dc4926a413e2161557d1a5";
+    this.key = "8645086ec1ba4004b6646b91304516c3";
     this.url = `https://api.weatherbit.io/v2.0/current?key=${this.key}&lang=pl`;
   }
   render() {
@@ -51,9 +51,9 @@ class WeatherAPI extends Component {
 
 ReactDOM.render(
   <>
-    <WeatherAPI lat="52.232222" long="21.008333" />,
-    <WeatherAPI lat="50.061389" long="19.938333" />,
-    <WeatherAPI lat="51.11" long="17.022222" />,
+    <Weather lat="52.232222" long="21.008333" />,
+    <Weather lat="50.061389" long="19.938333" />,
+    <Weather lat="51.11" long="17.022222" />,
   </>,
 
   document.querySelector("#root")
