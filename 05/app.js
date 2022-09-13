@@ -55,6 +55,5 @@ ReactDOM.render(
     <Weather lat="50.061389" long="19.938333" />,
     <Weather lat="51.11" long="17.022222" />,
   </>,
-
   document.querySelector("#root")
 );
