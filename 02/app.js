@@ -7,7 +7,10 @@ class Counter extends React.Component {
     }
     
     render() {
-        return <button>click me ({ this.state.amount })</button>
+        return <button onClick={this.clickHandler}>click me ({ this.state.amount })</button>
+    }
+    clickHandler = () => {
+        this.setState({ amount: this.state.amount + 1 });
     }
 }
 
