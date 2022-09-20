@@ -1,0 +1,1 @@
+set key in .env as in the example in .env_example
