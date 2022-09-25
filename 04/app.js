@@ -1,41 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 class App extends React.Component {
-    state = { 
-        firstName: '',
-        lastName: '',
-        searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
-    }
+	state = {
+		firstName: "",
+		lastName: "",
+		searchQuery: "",
+		users: ["Jan Kowalski", "Michał Nowak"],
+	};
 
-    renderUsersList() {
-        const {users} = this.state;
+	renderUsersList() {
+		const {users, searchQuery} = this.state;
+
+        if(searchQuery === '') {
+            return this.rednerUsers(users);
+        } else {
+            const usersList = users.filter(u => u.toLowerCase().includes(searchQuery.toLowerCase()));
+            return this.rednerUsers(usersList);
+        }
+    }
+    rednerUsers(users) {
         return users.map(name => {
             return (
-                <li onClick={ this.clickHandler }>
+                <li onClick={ () => this.removeUser(name) }>
                     { name }
                 </li>
             );
         });
     }
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+	inputChange = (e) => {
+		const { name, value } = e.target;
+		this.setState({
+			[name]: value,
+		});
+	};
 
-    inputChange = e => {
-        const {name, value} = e.target;
-        this.setState({
-            [name]: value,
-        });
-    }
-
-    render() {
-        const { firstName, lastName } = this.state;
+	render() {
+		const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
+                <input name="searchQuery" value={searchQuery} onChange={this.inputChange} />
                 <form>
                     <input name="firstName"
                         value={ firstName }
@@ -50,38 +55,36 @@ class App extends React.Component {
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
-    }
+	}
 
-    submitHandler = e => {
-        e.preventDefault();
+	submitHandler = (e) => {
+		e.preventDefault();
 
-        const { firstName, lastName } = this.state;
-        if(firstName && lastName) {
-            this.addUser(`${firstName} ${lastName}`);
-            this.setState({
-                firstName: '',
-                lastName: '',
-            });
-        } else {
-            // tutaj komunikat dla użytkownika
-        }
-    }
+		const { firstName, lastName } = this.state;
+		if (firstName && lastName) {
+			this.addUser(`${firstName} ${lastName}`);
+			this.setState({
+				firstName: "",
+				lastName: "",
+			});
+		} else {
+			// tutaj komunikat dla użytkownika
+		}
+	};
 
-    addUser(name) {
-        this.setState({
-            users: [...this.state.users, name],
-        });
-    }
+	addUser(name) {
+		this.setState({
+			users: [...this.state.users, name],
+		});
+	}
 
-    removeUser(name) {
-        const currUsers = this.state.users.filter(
-            user => user != name
-        );
+	removeUser(name) {
+		const currUsers = this.state.users.filter((user) => user != name);
 
-        this.setState({
-            users: currUsers,
-        });
-    }
+		this.setState({
+			users: currUsers,
+		});
+	}
 }
 
-ReactDOM.render(<App/>, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));
