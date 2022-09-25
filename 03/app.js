@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 class Article extends React.Component {
     state = {
         comments: [],
+        comment: ''
     }
     
     render() {
@@ -13,23 +14,58 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit = {this.submitHandler}>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
                                     name="content" 
+                                    value={this.state.comment}
+                                    onChange = {this.commentChange}
                                 />
                             </label>
                         </div>
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.renderCommentsList()}
                     </ul>
                 </section>
             </article>
         )
+    }
+    commentChange = e =>{
+        this.setState({
+            comment: e.target.value
+        })
+    }
+    addComment(comment){
+        const copyComments = this.state.comments.slice()
+        copyComments.push(comment)
+
+        this.setState({
+            comments: copyComments
+        })
+    }
+
+    submitHandler = e =>{
+        e.preventDefault()
+        const {comment} = this.state
+
+        this.addComment(comment)
+
+        this.setState({
+            comment: ''
+        })
+        
+    }
+  
+    renderCommentsList(){
+        const {comments} = this.state
+        const commentsList = comments.map(comment => {
+            return <li>{comment}</li>
+        })
+        return commentsList
     }
 }
 
