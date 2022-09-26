@@ -3,35 +3,64 @@ import ReactDOM from 'react-dom';
 
 class Article extends React.Component {
     state = {
+        text: 'deafult text',
         comments: [],
     }
     
     render() {
         const {title, body} = this.props;
+        const {text} = this.state;
         return (
             <article>
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={this.addComment}>
                         <div>
                             <label>
                                 <textarea 
-                                    style={{ "min-width": "300px", "min-height": "120px" }} 
-                                    name="content" 
+                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
+                                    name="content"
+                                    value={text}
+                                    onChange={ this.textChange } 
                                 />
                             </label>
                         </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
+                        <div><input type="submit" value="dodaj komentarz"/></div>
                     </form>
                     <ul>
                         {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.renderComments()}
                     </ul>
                 </section>
             </article>
         )
     }
+
+
+    textChange = e => {
+        this.setState({
+        text: e.target.value,
+        })
+    }
+
+    renderComments() {{
+        return this.state.comments.map(content => {
+            return <li>{content}</li>
+        })
+    }}
+    
+
+    addComment = e => {
+        e.preventDefault();
+        const {comments, text} = this.state;
+        this.setState({
+            comments: [...comments, text],
+            text: '',
+        })
+    }
 }
+
 
 ReactDOM.render(
     <Article 

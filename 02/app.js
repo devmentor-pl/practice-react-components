@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom';
 
 class Counter extends React.Component {
     state = {
-        amount: 0,
+        counter: 0,
     }
     
     render() {
-        return <button>click me ({ this.state.amount })</button>
+        return <button onClick={this.clickHandler}>click me ({ this.state.counter })</button>
+    }
+
+    clickHandler = e => {
+        const {counter} = this.state;
+        this.setState({counter: counter +1})
     }
 }
 
