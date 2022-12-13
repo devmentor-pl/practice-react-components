@@ -11,8 +11,8 @@ class Weather extends React.Component{
     }
     componentDidMount(){
         const {signal} = this.abortController;
-        const url = `https://api.weatherbit.io/v2.0/current?key=93558fd78ea34b9182d933c681a32e9b&lat=${this.props.lat}&lon=${this.props.lon}&lang=pl`
-        get(url, signal)
+        
+        get(this.props.lat, this.props.lon, signal)
             .then((data) => {
                 this.setState({data: data});
             })
