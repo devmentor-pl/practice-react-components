@@ -1,7 +1,9 @@
-export function get (resource, signal) {
+
+export function get (lat, lon, signal) {
     const options = {
         mathod: 'GET',
     }
+    const resource = `https://api.weatherbit.io/v2.0/current?key=93558fd78ea34b9182d933c681a32e9b&lat=${lat}&lon=${lon}&lang=pl`
     return fetchData(resource, options, signal)
 }
 
