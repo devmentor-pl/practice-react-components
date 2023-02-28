@@ -9,6 +9,7 @@ class App extends React.Component {
 		lastName: '',
 		searchQuery: '',
 		users: ['Jan Kowalski', 'Michał Nowak'],
+		errors: [],
 	};
 
 	renderUsersList() {
@@ -37,7 +38,7 @@ class App extends React.Component {
 	};
 
 	render() {
-		const { firstName, lastName, searchQuery } = this.state;
+		const { firstName, lastName, searchQuery, errors } = this.state;
 		return (
 			<section onSubmit={this.submitHandler}>
 				<form>
@@ -57,6 +58,7 @@ class App extends React.Component {
 					id='search'
 					value={searchQuery}
 				/>
+				{errors.length > 0 ? this.showErrors(errors) : null}
 				<ul>{this.renderUsersList()}</ul>
 			</section>
 		);
@@ -71,9 +73,12 @@ class App extends React.Component {
 			this.setState({
 				firstName: '',
 				lastName: '',
+				errors: [],
 			});
 		} else {
-			// tutaj komunikat dla użytkownika
+			this.setState({
+				errors: ['Proszę podać imię i nazwisko użytkownika'],
+			});
 		}
 	};
 
@@ -93,6 +98,10 @@ class App extends React.Component {
 
 	createLiElement(value) {
 		return <li onClick={this.clickHandler}>{value}</li>;
+	}
+
+	showErrors(errorsBox) {
+		return errorsBox.map((err) => <p>{err}</p>);
 	}
 }
 
