@@ -7,6 +7,7 @@ class Article extends React.Component {
 	state = {
 		comments: [],
 		commentContent: '',
+		errors: [],
 	};
 
 	changeHandler = (e) => {
@@ -16,20 +17,23 @@ class Article extends React.Component {
 
 	submitHandler = (e) => {
 		e.preventDefault();
-		const { commentContent } = this.state;
+		const { commentContent, errors } = this.state;
 		if (commentContent) {
 			this.addComment(commentContent);
 			this.setState({
 				commentContent: '',
+				errors: [],
 			});
 		} else {
-			alert('Nie można dodać pustego komentarza!');
+			this.setState({
+				errors: ['Nie można dodać pustego komentarza'],
+			});
 		}
 	};
 
 	render() {
 		const { title, body } = this.props;
-		const { commentContent } = this.state;
+		const { commentContent, errors } = this.state;
 		return (
 			<article>
 				<h1>{title}</h1>
@@ -50,6 +54,7 @@ class Article extends React.Component {
 							<input type='submit' value='dodaj komentarz' />
 						</div>
 					</form>
+					{errors.length > 0 ? this.showError(errors) : null}
 					<ul>{this.renderComments()}</ul>
 				</section>
 			</article>
@@ -65,6 +70,10 @@ class Article extends React.Component {
 		this.setState({
 			comments: [...this.state.comments, comment],
 		});
+	}
+
+	showError(errorsBox) {
+		return errorsBox.map((err) => <p>{err}</p>);
 	}
 }
 
