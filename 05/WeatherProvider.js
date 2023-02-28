@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import getWeatherData from './getWeatherData';
 
 export default class Weather extends Component {
 	state = {
@@ -27,22 +28,9 @@ export default class Weather extends Component {
 	}
 
 	componentDidMount() {
-		this.getWeatherData();
-	}
-
-	getWeatherData() {
 		const { lat, lng } = this.props;
-		const API_KEY = 'f93c6d18427e4c79aca3fb72a6ad546f';
-		const URL = `https://api.weatherbit.io/v2.0/current?key=${API_KEY}&lat=${lat}&lon=${lng}&units=I&lang=pl`;
 
-		const promise = fetch(URL);
-		promise
-			.then((resp) => {
-				if (resp.ok) {
-					return resp.json();
-				}
-				throw new Error('Brak danych!');
-			})
+		getWeatherData(lat, lng)
 			.then((data) => {
 				const copyData = Object.assign({}, ...data.data);
 				this.setState({
@@ -52,6 +40,7 @@ export default class Weather extends Component {
 						city: copyData.city_name,
 					},
 				});
-			});
+			})
+			.catch((err) => console.log(err));
 	}
 }
