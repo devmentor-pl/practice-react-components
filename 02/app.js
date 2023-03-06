@@ -34,14 +34,3 @@ class Counter extends React.Component {
 }
 
 root.render(<Counter />);
-
-// componentDidMount() {
-//     const newState = (state, props) => {
-//     const { counter } = state;
-//     const { step } = props;
-//     return {
-//     counter: counter + step,
-//     }
-//     }
-//     this.setState(newState);
-//     }
