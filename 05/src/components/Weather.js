@@ -1,16 +1,14 @@
 import React from "react";
-import { apiService, apiStub } from "../API";
-
-const { API_URL, API_KEY, API_ENABLED } = apiService;
-
+import WeatherProvider from "../WeatherProvider";
 
 class Weather extends React.Component {
     state = {
         data: null,
+        errorMessage: '',
     }
 
     render() {
-        const { data } = this.state;
+        const { data, errorMessage } = this.state;
 
         if (data) {
             const { city_name, temp, rh: humidity, clouds, wind_spd: windSpeed, wind_cdir: windDirection, weather: { description } } = data;
@@ -30,50 +28,32 @@ class Weather extends React.Component {
             );
         }
 
-        return null;
+        return (
+            <section>
+                <h2>{errorMessage}</h2>
+            </section>
+        );
     }
 
     componentDidMount() {
+        const { lat, lng } = this.props;
+        const locationData = { lat, lng };
+        const weatherData = new WeatherProvider(locationData);
 
-        this._fetchWeatherData()
+        weatherData.loadData()
             .then(
-                resp => this.setState({
-                    data: resp,
+                response => this.setState({
+                    data: response,
+                    errorMessage: '',
                 })
             )
-            .catch(error => console.error('Something went wrong...', error))
-
-    }
-
-    _fetchWeatherData() {
-        const { lat, lng } = this.props;
-        const url = `${API_URL}?key=${API_KEY}&lat=${lat}&lon=${lng}&lang=pl`;
-
-        if (this._isApiEnabled()) {
-            return fetch(url)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json()
-                    }
-
-                    return Promise.reject(response);
+            .catch(error =>
+                this.setState({
+                    errorMessage: `Something went wrong. Error message: ${error.statusText}`,
                 })
-                .then(response => {
-                    const [weatherData] = response.data;
-                    console.log(weatherData);
-                    return weatherData;
-                })
-        }
-        else {
-            return new Promise((resolve, reject) => {
-                resolve(apiStub.data);
-            });
-        }
+            );
     }
 
-    _isApiEnabled() {
-        return API_ENABLED ? true : false;
-    }
 }
 
 export default Weather;

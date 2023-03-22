@@ -1,9 +1,3 @@
-export const apiService = {
-    API_URL: 'https://api.weatherbit.io/v2.0/current',
-    API_KEY: 'ffc13da65b494013b12370e7bdecb3f0',
-    API_ENABLED: true,
-}
-
 export const apiStub = {
     "data":
     {
