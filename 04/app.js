@@ -8,6 +8,7 @@ class App extends React.Component {
         firstName: '',
         lastName: '',
         searchQuery: '',
+        alertMessage: '',
         users: ['Jan Kowalski', 'Michał Nowak'],
     }
 
@@ -37,7 +38,7 @@ class App extends React.Component {
             const userLowerCase = user.toLowerCase();
             const searchQueryLowerCase = searchQuery.toLowerCase();
 
-            if (userLowerCase.includes(searchQueryLowerCase)) return user
+            return userLowerCase.includes(searchQueryLowerCase);
         });
     }
 
@@ -54,7 +55,8 @@ class App extends React.Component {
     }
 
     render() {
-        const { firstName, lastName, searchQuery } = this.state;
+        const { firstName, lastName, searchQuery, alertMessage } = this.state;
+
         return (
             <section onSubmit={this.submitHandler}>
                 <form>
@@ -67,6 +69,12 @@ class App extends React.Component {
                         onChange={this.inputChange}
                     />
                     <input type="submit" />
+                    {
+                        alertMessage.length > 0 ?
+                            <small style={{ color: 'red' }}>Please fill both inputs.</small>
+                            :
+                            null
+                    }
                 </form>
                 <label htmlFor="search">Search user: </label>
                 <input
@@ -83,15 +91,18 @@ class App extends React.Component {
     submitHandler = e => {
         e.preventDefault();
 
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, alertMessage } = this.state;
         if (firstName && lastName) {
             this.addUser(`${firstName} ${lastName}`);
             this.setState({
                 firstName: '',
                 lastName: '',
+                alertMessage: '',
             });
         } else {
-            // tutaj komunikat dla użytkownika
+            this.setState({
+                alertMessage: 'Please fill both inputs',
+            })
         }
     }
 
