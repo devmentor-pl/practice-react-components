@@ -1,11 +1,17 @@
 class WeatherAPI {
 	constructor() {
 		this.API_KEY = '195f1a7ae96d4ad488f9543021ea79c8';
-		// this.url = `https://api.weatherbit.io/v2.0/current?key=${this.API_KEY}`;
+		this.url = `https://api.weatherbit.io/v2.0/current?key=${this.API_KEY}`;
 	}
 
 	loadData(lat, lng) {
-		return fetch(`${this.url}&lat=${lat}&lon=${lng}&lang=pl`).then((resp) => {
+		return this._fetch(`&lat=${lat}&lon=${lng}&lang=pl`);
+	}
+
+	_fetch(additionalPath = '') {
+		const url = this.url + additionalPath;
+
+		return fetch(url).then((resp) => {
 			if (resp.ok) {
 				return resp.json();
 			}

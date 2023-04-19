@@ -6,7 +6,7 @@ const root = createRoot(document.querySelector('#root'));
 
 root.render(
 	<Weather
-		lat={52.232222}
-		lng={21.008333}
+		lat='51.11'
+		lng='17.022222'
 	/>
 );
