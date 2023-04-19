@@ -9,15 +9,14 @@ class App extends React.Component {
 		lastName: '',
 		searchQuery: '',
 		users: ['Jan Kowalski', 'Michał Nowak'],
-		usersFound: [],
 	};
 
 	renderUsersList() {
-		const { users, searchQuery, usersFound } = this.state;
+		const { users, searchQuery } = this.state;
 
 		if (searchQuery !== '') {
-			return usersFound.map((name) => {
-				return <li>{name}</li>;
+			return this.searchUsers(searchQuery).map((name) => {
+				return <li onClick={this.clickHandler}>{name}</li>;
 			});
 		} else {
 			return users.map((name) => {
@@ -78,14 +77,11 @@ class App extends React.Component {
 		const { users } = this.state;
 
 		const searchUsers = users.filter((user) => {
-			if (user.includes(searchQuery)) {
+			if (user.toLowerCase().includes(searchQuery.toLowerCase())) {
 				return user;
 			}
 		});
-
-		this.setState({
-			usersFound: searchUsers,
-		});
+		return searchUsers;
 	}
 
 	submitHandler = (e) => {
