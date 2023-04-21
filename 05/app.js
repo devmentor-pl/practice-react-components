@@ -6,41 +6,45 @@ const root = createRoot(document.querySelector("#root"));
 class Weather extends React.Component {
 	state = {
 		data: [],
-		key: "9396da9b853a437199b1f03a5cd706f4",
+		key: "cf682412960844e7b87398e3c7d39536",
 	};
 
 	render() {
 		const { data } = this.state;
 
-		if (data) {
-			// renderuj dopiero jak pobierzesz dane z API
-			console.log(data);
-			return <h1>informacje o pogodzie...</h1>;
+		if (data && data.weather) {
+			return (
+				<section>
+					<h1>Weather in {data.city_name}:</h1>
+					<p>Description: {data.weather.description}</p>
+					<p>Temperature: {data.temp}</p>
+				</section>
+			);
 		}
 
-		// nic nie renderuj
 		return null;
 	}
 
 	componentDidMount() {
 		const { lat, lng } = this.props;
-
+		const { key } = this.state;
 		const promise = fetch(
-			`https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lng}&key=${this.state.key}`
+			`https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lng}&key=${key}`
 		);
 
-		promise.then(resp => {
-			if (resp.ok) {
-				return resp.json();
-			}
-			return Promise.reject(resp);
-		});
-		// .then(data => {
-		// 	this.setState({
-		// 		data: data,
-		// 	});
-		// })
-		// .catch(err => console.error(err));
+		promise
+			.then(resp => {
+				if (resp.ok) {
+					return resp.json();
+				}
+				return Promise.reject(resp);
+			})
+			.then(json => {
+				this.setState({
+					data: json.data[0],
+				});
+			})
+			.catch(err => console.error(err));
 	}
 }
 
