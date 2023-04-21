@@ -6,7 +6,7 @@ const root = createRoot(document.querySelector("#root"));
 class Weather extends React.Component {
 	state = {
 		data: [],
-		key: "9396da9b853a437199b1f03a5cd706f4",
+		key: "fb1f270ee105461baf6d3b0c0e13aa7b",
 	};
 
 	render() {
