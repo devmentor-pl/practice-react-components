@@ -58,10 +58,6 @@ class Article extends React.Component {
 
 		if (comment) {
 			this.addComment(comment);
-
-			this.setState({
-				comment: "",
-			});
 		} else {
 			alert("Please write your comment");
 		}
@@ -71,6 +67,7 @@ class Article extends React.Component {
 		this.setState(
 			{
 				comments: [...this.state.comments, comment],
+				comment: "",
 			},
 			() => console.log(this.state.comments)
 		);

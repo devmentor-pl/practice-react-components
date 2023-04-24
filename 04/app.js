@@ -16,7 +16,7 @@ class App extends React.Component {
 
 		if (searchQuery !== "") {
 			const filteredUsers = users.filter(user => {
-				return user === searchQuery;
+				return user.includes(searchQuery);
 			});
 
 			return filteredUsers.map(name => {

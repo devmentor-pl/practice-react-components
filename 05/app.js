@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { getWeatherData } from "./getWeatherData";
 
 const root = createRoot(document.querySelector("#root"));
 
@@ -28,23 +29,12 @@ class Weather extends React.Component {
 	componentDidMount() {
 		const { lat, lng } = this.props;
 		const { key } = this.state;
-		const promise = fetch(
-			`https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lng}&key=${key}`
-		);
 
-		promise
-			.then(resp => {
-				if (resp.ok) {
-					return resp.json();
-				}
-				return Promise.reject(resp);
-			})
-			.then(json => {
-				this.setState({
-					data: json.data[0],
-				});
-			})
-			.catch(err => console.error(err));
+		getWeatherData(lat, lng, key).then(json => {
+			this.setState({
+				data: json.data[0],
+			});
+		});
 	}
 }
 
