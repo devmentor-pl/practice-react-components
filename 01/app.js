@@ -19,10 +19,11 @@ class App extends React.Component {
   componentDidMount() {
     console.log("componentDidMount");
 
-   this.id = setInterval(() => {
+    this.id = setInterval(() => {
       const { counter } = this.state;
       this.setState({ counter: counter + 1 });
-    }, 5000);
+    }, 1000);
+    console.log(this.id);
   }
 
   componentDidUpdate() {
@@ -30,8 +31,8 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("componentWillUnmount");
     clearInterval(this.id);
+    console.log("componentWillUnmount");
   }
 }
 
