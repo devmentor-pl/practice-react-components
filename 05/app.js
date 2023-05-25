@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { load } from "./api";
 
 const root = createRoot(document.querySelector("#root"));
 
@@ -33,21 +34,13 @@ class WeatherCheck extends React.Component {
 
   componentDidMount() {
     const { lat, lot } = this.props;
-    fetch(
-      `https://api.weatherbit.io/v2.0/current?key=2a79607cb0e94d4590a92c16e676c48e&lat=${lat}&lon=${lot}&lang=pl`
-    )
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        }
-        return Promise.reject("Error" + resp.status);
-      })
 
+    load(lat, lot)
       .then((obj) => {
-        this.setState({
-          data: obj.data,
-        });
+      this.setState({
+        data: obj.data,
       });
+    });
   }
 }
 
