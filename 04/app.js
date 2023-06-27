@@ -12,8 +12,13 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
+        const {users, searchQuery} = this.state;
+        let userList = users;
+        if(searchQuery) {
+            userList = users.filter(name=> name.includes(searchQuery));
+        }
+
+        return userList.map(name => {
             return (
                 <li onClick={ this.clickHandler }>
                     { name }
@@ -38,6 +43,9 @@ class App extends React.Component {
         const { firstName, lastName } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
+                <label>Szukaj
+                    <input name="searchQuery" onChange={this.inputChange} style={{'backgroundColor': 'red'}}></input>
+                </label>
                 <form>
                     <input name="firstName"
                         value={ firstName }
