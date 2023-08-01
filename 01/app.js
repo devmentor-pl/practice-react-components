@@ -20,7 +20,7 @@ class App extends React.Component {
         this.id = setInterval(() => {
             const { counter } = this.state
 
-            this.setState({ counter: counter + 1 }) // dlaczego jeśli napiszę { counter: counter++} wyskakuje błąd, że przypisuje do stałej zmiennej? (Assignment to constant variable)
+            this.setState({ counter: counter + 1 }) 
         }, 5000)
     }
     componentDidUpdate() {

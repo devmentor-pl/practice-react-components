@@ -13,7 +13,7 @@ class App extends React.Component {
 
     renderUsersList() {
         const { users, searchQuery } = this.state;
-        const filteredUsers = users.filter(item => item.toLowerCase().includes(searchQuery))
+        const filteredUsers = users.filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()))
         return filteredUsers.map(name => {
             return (
                 <li onClick={this.clickHandler}>
@@ -50,7 +50,7 @@ class App extends React.Component {
                     />
                     <input type="submit" />
                 </form>
-                <input onChange={this.filterHandler} type="text" placeholder='filtruj użytkowników' />
+                <input value={this.state.searchQuery} onChange={this.filterHandler} type="text" placeholder='filtruj użytkowników' />
                 <ul>{this.renderUsersList()}</ul>
             </section>
         );
@@ -89,7 +89,7 @@ class App extends React.Component {
 
     filterHandler = e => {
         const { searchQuery } = this.state
-        this.setState({ searchQuery: e.target.value.toLowerCase() })
+        this.setState({ searchQuery: e.target.value })
     }
 }
 

@@ -39,8 +39,6 @@ class Article extends React.Component {
     }
 
     changeHandler = (e) => {
-        const { comment } = this.state  // trochę nie rozumiem dlaczego comment jest wyszarzony, jeśli zakomentuje tą linijkę, comment jest cały czas zdefiniowany- czy chodzi o closures? Jeśli tak, to wcześniej rozumiałam to tak, że mimo wszytsko zmienna w pierwszej kolejności pobierana jest z najbliższego scope, czyli z tej bieżącej linii kodu 42. 
-
         this.setState({ comment: e.target.value })
     }
 
