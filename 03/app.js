@@ -1,43 +1,78 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-const root = createRoot(document.querySelector('#root'));
+const root = createRoot(document.querySelector("#root"));
 
 class Article extends React.Component {
-    state = {
-        comments: [],
+  state = {
+    comments: [],
+    textarea: "",
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { textarea } = this.state;
+    if (textarea) {
+      this.setState({
+        comments: [...this.state.comments, textarea],
+        textarea: "",
+      });
+    } else {
+      alert("nie wprowadzono tekstu");
     }
-    
-    render() {
-        const {title, body} = this.props;
-        return (
-            <article>
-                <h1>{ title }</h1>
-                <p>{ body }</p>
-                <section>
-                    <form>
-                        <div>
-                            <label>
-                                <textarea 
-                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" 
-                                />
-                            </label>
-                        </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
-                    </form>
-                    <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
-                    </ul>
-                </section>
-            </article>
-        )
-    }
+  };
+
+  renderComments() {
+    const { comments } = this.state;
+    const commentsJSX = comments.map((item, index) => {
+      return <li key={index}>{item}</li>;
+    });
+
+    return commentsJSX;
+  }
+
+  changeHandler = (e) => {
+    const { tagName, value } = e.target;
+    this.setState({
+      [tagName.toLowerCase()]: value,
+    });
+  };
+
+  render() {
+    const { title, body } = this.props;
+    const { textarea } = this.state;
+
+    return (
+      <article>
+        <h1>{title}</h1>
+        <p>{body}</p>
+        <section>
+          <form onSubmit={this.handleSubmit}>
+            <div>
+              <label>
+                <textarea
+                  style={{ minWidth: "300px", minHeight: "120px" }}
+                  name="content"
+                  value={textarea}
+                  onChange={this.changeHandler}
+                />
+              </label>
+            </div>
+            <div>
+              <input type="submit" value="dodaj komentarz" />
+            </div>
+          </form>
+          <ul>{this.renderComments()}</ul>
+        </section>
+      </article>
+    );
+  }
 }
 
 root.render(
-    <Article 
-        title="Programowanie jest super!"
-        body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis justo ipsum, eleifend vel quam eget, lobortis posuere arcu. In vitae eros in nisi sodales aliquam..."
-    />
+  <Article
+    title="Programowanie jest super!"
+    body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis justo ipsum, eleifend vel quam eget, lobortis posuere arcu. In vitae eros in nisi sodales aliquam..."
+  />
 );
