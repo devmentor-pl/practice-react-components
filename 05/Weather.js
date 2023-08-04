@@ -13,16 +13,19 @@ class Weather extends React.Component {
   componentDidMount() {
     const { lat, lng, api } = this.props;
 
-    api.loadData([lat, lng]).then(({ data }) => {
-      const {
-        city_name: city,
-        app_temp: temp,
-        weather: { description },
-      } = data[0];
-      this.setState({ data: { city, temp, description } }, () =>
-        console.log(this.state)
-      );
-    });
+    api
+      .loadData([lat, lng])
+      .then(({ data }) => {
+        const {
+          city_name: city,
+          app_temp: temp,
+          weather: { description },
+        } = data[0];
+        this.setState({ data: { city, temp, description } }, () =>
+          console.log(this.state)
+        );
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -31,7 +34,9 @@ class Weather extends React.Component {
     const { city, temp, description } = this.state.data;
     return (
       <>
-        <h2>{city}, {temp}°C</h2>
+        <h2>
+          {city}, {temp}°C
+        </h2>
         <p>{description}</p>
       </>
     );
@@ -39,9 +44,9 @@ class Weather extends React.Component {
 }
 
 Weather.propTypes = {
-    api: PropTypes.instanceOf(Api).isRequired,
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-  };
+  api: PropTypes.instanceOf(Api).isRequired,
+  lat: PropTypes.number.isRequired,
+  lng: PropTypes.number.isRequired,
+};
 
 export default Weather;
