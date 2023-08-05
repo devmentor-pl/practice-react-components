@@ -38,8 +38,8 @@ class App extends React.Component {
     render() {
         const { firstName, lastName } = this.state;
         return (
-            <section onSubmit={this.submitHandler}>
-                <form>
+            <section >
+                <form onSubmit={this.submitHandler}>
                     <input name="firstName"
                         value={firstName}
                         onChange={this.inputChange}

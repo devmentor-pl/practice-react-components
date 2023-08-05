@@ -27,12 +27,7 @@ class Weather extends React.Component {
     componentDidMount() {
         const api = new WeatherApi(this.props)
 
-        api.getData()
-            .then(this.getWeatherData.bind(this))
-    }
-
-    getWeatherData({ data }) {
-        this.setState({ data: data })
+        api.getData().then(({ data }) => this.setState({ data }))
     }
 }
 
