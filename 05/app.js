@@ -61,7 +61,7 @@ class Weather extends React.Component {
 		)
 			.then((response) => response.json())
 			.then((jsonData) => {
-				this.setState({ data: jsonData.data[0] });
+				this.setState({ data: jsonData.data[0], lat: '', lng: '' });
 			})
 			.catch((error) => {
 				console.error(
@@ -104,7 +104,11 @@ class Weather extends React.Component {
 				<div style={styles.weatherInfo}>
 					{data ? (
 						<div>
-							<p>Miasto: {data.city_name}</p>
+							<p>
+								Miasto: {data.city_name} (Szerokość geograficzna: {data.lat},
+								Długość geograficzna:
+								{data.lon})
+							</p>
 							<p>Temperatura: {data.temp}°C</p>
 							<p>Opis: {data.weather.description}</p>
 							<p>Wiatr: {data.wind_spd} m/s</p>
