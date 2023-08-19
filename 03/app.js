@@ -5,7 +5,7 @@ const root = createRoot(document.querySelector('#root'));
 
 class Article extends React.Component {
     state = {
-        comments: ['test', 'test2'],
+        comments: [],
     }
 
     formHandler = (e) => {
