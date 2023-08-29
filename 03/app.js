@@ -5,12 +5,16 @@ const root = createRoot(document.querySelector('#root'));
 
 class Article extends React.Component {
 	state = {
-		textarea: '',
+		content: '',
 		comments: [],
 	};
 
 	render() {
 		const { title, body } = this.props;
+		const { content, comments } = this.state;
+		const commentsMap = comments.map(com => {
+			return <li>{com}</li>;
+		});
 		return (
 			<article>
 				<h1>{title}</h1>
@@ -19,22 +23,39 @@ class Article extends React.Component {
 					<form onSubmit={this.submitHandler}>
 						<div>
 							<label>
-								<textarea style={{ minWidth: '300px', minHeight: '120px' }} name='content' />
+								<textarea
+									onChange={this.inputChange}
+									value={content}
+									style={{ minWidth: '300px', minHeight: '120px' }}
+									name='content'
+								/>
 							</label>
 						</div>
 						<div>
 							<input type='submit' value='dodaj komentarz' />
 						</div>
 					</form>
-					<ul>{/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}</ul>
+					<ul>{commentsMap}</ul>
 				</section>
 			</article>
 		);
 	}
+	inputChange = e => {
+		const { name, value } = e.target;
+		this.setState({
+			[name]: value,
+		});
+	};
 	submitHandler = e => {
 		e.preventDefault();
-	
-		// this.addComment({  });
+		const { content } = this.state;
+		this.addComment(content);
+		this.setState({
+			content: '',
+		});
+		// czemu tutaj mam opozniony wglad w state - czyli opzinienie o jeden komentarz a metoda map widzi co jest w tablicy komentarzy?
+		//tzn po pierwszym wyslaniu komentarza ten clg pokazuje ze this.state.comments jest puste
+		console.log(this.state);
 	};
 	addComment(com) {
 		this.setState({
