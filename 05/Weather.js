@@ -1,5 +1,6 @@
 import React from 'react';
 
+// i used antoher api, beacuse ur APi weather has 50calls / day, so its few time refresh and its gone 
 const API_KEY = '769bfea3884b48e2a12103546232908';
 class Weather extends React.Component {
 	state = {
