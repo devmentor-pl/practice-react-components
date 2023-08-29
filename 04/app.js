@@ -24,6 +24,8 @@ class App extends React.Component {
 			//commit 1 - znowu nie rozumiem dlaczego consola nie wspolpracuje
 			//console.log(filteredUsers) <== czemu to nie pokazywalo mi aktualnej tablicy z pasujacymi wyszkanymi elemntami
 
+            // nawet powiem wiecej, bo to strasznie myli - gdybym dostal console loga z wartoscami w tablicy to wiedzialem jak dalej dzialac, a tak musialem sie posikowac gpt ktory w sumie popwiedzial mi zeby uzyc w tym momencie map na tej tablicy (filteredUsers) ktora byla pusta!
+
 			// ale w mapie juz nagle widzi ze cos w tablicy jest i moze po niej przechodzic :o
 			return filteredUsers.map(userMatch => {
 				return <li onClick={this.clickHandler}>{userMatch}</li>;
