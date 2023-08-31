@@ -50,12 +50,14 @@ class Article extends React.Component {
 		e.preventDefault();
 		const { content } = this.state;
 		this.addComment(content);
-		this.setState({
-			content: '',
-		});
-		// czemu tutaj mam opozniony wglad w state - czyli opzinienie o jeden komentarz a metoda map widzi co jest w tablicy komentarzy?
-		//tzn po pierwszym wyslaniu komentarza ten clg pokazuje ze this.state.comments jest puste
-		console.log(this.state);
+		this.setState(
+			{
+				content: '',
+			}
+			// () => {
+			// console.log(this.state.comments);
+			// }
+		);
 	};
 	addComment(com) {
 		this.setState({
