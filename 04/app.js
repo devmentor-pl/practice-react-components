@@ -4,86 +4,91 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class App extends React.Component {
-    state = { 
-        firstName: '',
-        lastName: '',
-        searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
-    }
+	state = {
+		firstName: '',
+		lastName: '',
+		searchQuery: '',
+		users: ['Jan Kowalski', 'Michał Nowak'],
+	};
 
-    renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
-    }
+	renderUsersList() {
+		const { users, searchQuery } = this.state;
+		const lowercaseSearchQuery = searchQuery.toLowerCase();
+		if (!searchQuery)
+			return users.map(name => {
+				return <li onClick={this.clickHandler}>{name}</li>;
+			});
+		else {
+			const filteredUsers = users.filter(name => name.toLocaleLowerCase().includes(lowercaseSearchQuery));
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+			//commit 1 - znowu nie rozumiem dlaczego consola nie wspolpracuje
+			console.log(filteredUsers);
+			// <== czemu to nie pokazywalo mi aktualnej tablicy z pasujacymi wyszkanymi elemntami
 
-    inputChange = e => {
-        const {name, value} = e.target;
-        this.setState({
-            [name]: value,
-        });
-    }
+			// nawet powiem wiecej, bo to strasznie myli - gdybym dostal console loga z wartoscami w tablicy to wiedzialem jak dalej dzialac, a tak musialem sie posikowac gpt ktory w sumie popwiedzial mi zeby uzyc w tym momencie map na tej tablicy (filteredUsers) ktora byla pusta!
 
-    render() {
-        const { firstName, lastName } = this.state;
-        return (
-            <section onSubmit={ this.submitHandler }>
-                <form>
-                    <input name="firstName"
-                        value={ firstName }
-                        onChange={ this.inputChange }
-                    />
-                    <input name="lastName"
-                        value={ lastName }
-                        onChange={ this.inputChange }
-                    />
-                    <input type="submit"/>
-                </form>
-                <ul>{ this.renderUsersList() }</ul>
-            </section>
-        );
-    }
+			// ale w mapie juz nagle widzi ze cos w tablicy jest i moze po niej przechodzic :o
+			return filteredUsers.map(userMatch => {
+				return <li onClick={this.clickHandler}>{userMatch}</li>;
+			});
+		}
+	}
 
-    submitHandler = e => {
-        e.preventDefault();
+	clickHandler = e => {
+		const { innerText: userName } = e.target;
+		this.removeUser(userName);
+	};
 
-        const { firstName, lastName } = this.state;
-        if(firstName && lastName) {
-            this.addUser(`${firstName} ${lastName}`);
-            this.setState({
-                firstName: '',
-                lastName: '',
-            });
-        } else {
-            // tutaj komunikat dla użytkownika
-        }
-    }
+	inputChange = e => {
+		const { name, value } = e.target;
+		this.setState({
+			[name]: value,
+		});
+	};
 
-    addUser(name) {
-        this.setState({
-            users: [...this.state.users, name],
-        });
-    }
+	render() {
+		const { firstName, lastName, searchQuery } = this.state;
+		return (
+			<section onSubmit={this.submitHandler}>
+				<form>
+					<input name='firstName' value={firstName} onChange={this.inputChange} />
+					<input name='lastName' value={lastName} onChange={this.inputChange} />
+					<input type='submit' />
+				</form>
+				<label htmlFor=''>wyszukaj: </label>
+				<input name='searchQuery' value={searchQuery} onChange={this.inputChange} />
+				<ul>{this.renderUsersList()}</ul>
+			</section>
+		);
+	}
+	submitHandler = e => {
+		e.preventDefault();
 
-    removeUser(name) {
-        const currUsers = this.state.users.filter(
-            user => user != name
-        );
+		const { firstName, lastName, searchQuery } = this.state;
+		if (firstName && lastName) {
+			this.addUser(`${firstName} ${lastName}`);
+			this.setState({
+				firstName: '',
+				lastName: '',
+			});
+		} else {
+			// tutaj komunikat dla użytkownika
+		}
+	};
 
-        this.setState({
-            users: currUsers,
-        });
-    }
+	addUser(name) {
+		this.setState({
+			users: [...this.state.users, name],
+		});
+	}
+
+	removeUser(name) {
+		const currUsers = this.state.users.filter(user => user != name);
+
+		this.setState({
+			users: currUsers,
+		});
+	}
 }
 
-root.render(<App/>);
+root.render(<App />);
