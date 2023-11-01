@@ -12,16 +12,28 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const {users, searchQuery} = this.state;
+        const filteredUsers = users.filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()));
+        if(searchQuery.length === 0) {
+            return users.map(name => {
+                return (
+                    <li onClick={ this.clickHandler }>
+                        { name }
+                    </li>
+                );
+            });
+        } 
+        else {
+            return filteredUsers.map(name => {
+                return (
+                    <li onClick={ this.clickHandler }>
+                        { name }
+                    </li>
+                );
+            });
+        }   
+        
     }
-
     clickHandler = e => {
         const {innerText: userName} = e.target;
         this.removeUser(userName);
@@ -33,7 +45,11 @@ class App extends React.Component {
             [name]: value,
         });
     }
-
+    filterHandler = e => {
+        const {  value } = e.target;
+        this.setState({ searchQuery: value})
+    }   
+   
     render() {
         const { firstName, lastName } = this.state;
         return (
@@ -50,6 +66,7 @@ class App extends React.Component {
                     <input type="submit"/>
                 </form>
                 <ul>{ this.renderUsersList() }</ul>
+                <input onChange={ this.filterHandler } />
             </section>
         );
     }
