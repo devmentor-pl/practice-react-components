@@ -4,11 +4,9 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class Counter extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { amount: 0 }
+    state = {
+        amount: 0,
     }
-    
     render() {
         return <button onClick={ this.addOne }>click me ({ this.state.amount })</button>
     }
