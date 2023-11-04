@@ -25,7 +25,7 @@ class Article extends React.Component {
     const { comment } = this.state;
     console.log(this.state.commentsArr);
     e.preventDefault();
-    this.addComment(`${comment}`);
+    this.addComment(comment);
     this.setState({ comment: "" });
   };
   render() {
