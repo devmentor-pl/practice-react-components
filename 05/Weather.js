@@ -1,6 +1,5 @@
 import React from "react";
-
-
+import { fetchData } from "./getData";
 class Weather extends React.Component {
     state = {
         data: null,
@@ -19,13 +18,11 @@ class Weather extends React.Component {
         }
        
     }
-    componentDidMount() {    
-        const {lat, lng} = this.props
-        const url = `https://api.weatherbit.io/v2.0/current?key=43a4a4697c3a462fb478bc55b9614ed9&lat=${lat}&lon=${lng}&units=M&lang=pl`;  
-        fetch(url)
-        .then(resp => resp.json())
-        .then(data => this.setState({ data: data}))
-        .catch(error => console.log(error))
+    componentDidMount() {  
+        const {lat, lng} = this.props  
+        fetchData(lat, lng)
+        .then(data => this.setState({data: data}))
+        .catch(err => console.log(err))
     }
 }
 
