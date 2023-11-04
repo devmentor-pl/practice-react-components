@@ -13,26 +13,22 @@ class App extends React.Component {
 
     renderUsersList() {
         const {users, searchQuery} = this.state;
-        const filteredUsers = users.filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()));
-        if(searchQuery.length === 0) {
-            return users.map(name => {
-                return (
-                    <li onClick={ this.clickHandler }>
-                        { name }
-                    </li>
-                );
-            });
-        } 
-        else {
-            return filteredUsers.map(name => {
-                return (
-                    <li onClick={ this.clickHandler }>
-                        { name }
-                    </li>
-                );
-            });
-        }   
-        
+        const filteredUsers = this.filterUsers(users, searchQuery);
+        const userListItems =  filteredUsers.length > 0
+        ? filteredUsers.map(name => this.renderUserListItem(name))
+        : users.map(name => this.renderUsersList(name))
+
+        return userListItems;
+    }
+    filterUsers(users, searchQuery) {
+        return users.filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+    renderUserListItem(name) {
+        return (
+            <li onClick={ this.clickHandler }>
+                { name }
+            </li>
+        );
     }
     clickHandler = e => {
         const {innerText: userName} = e.target;
