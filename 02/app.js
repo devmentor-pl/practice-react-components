@@ -1,16 +1,31 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-const root = createRoot(document.querySelector('#root'));
+const root = createRoot(document.querySelector("#root"));
 
 class Counter extends React.Component {
-    state = {
-        amount: 0,
-    }
-    
-    render() {
-        return <button>click me ({ this.state.amount })</button>
-    }
+	state = {
+		amount: 0,
+	};
+
+	render() {
+		return (
+			<button onClick={this.clickHandler}>
+				click me ({this.state.amount})
+			</button>
+		);
+	}
+
+	clickHandler = () => {
+		this.addOne();
+	};
+
+	addOne() {
+		const { amount } = this.state;
+		this.setState({
+			amount: amount + 1,
+		});
+	}
 }
 
 root.render(<Counter />);
