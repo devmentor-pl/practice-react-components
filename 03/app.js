@@ -6,6 +6,22 @@ const root = createRoot(document.querySelector('#root'));
 class Article extends React.Component {
     state = {
         comments: [],
+        newComment: '', // Dodanie stanu dla nowego komentarza
+    }
+
+    handleCommentChange = (event) => {
+        // Metoda do aktualizacji stanu
+        this.setState({ newComment: event.target.value });
+    }
+
+    handleSumbit = (event) => {
+        event.preventDefault();
+        this.setState(prevState => ({
+            // Dodanie nowego komentarza do listy
+            comments: [...prevState.comments, prevState.newComment],
+            // Wyczyszczenie pola do wpisywania
+            newComment: '',
+        }));
     }
     
     render() {
@@ -15,19 +31,23 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={this.handleSumbit}>
                         <div>
                             <label>
                                 <textarea 
                                     style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" 
+                                    name="content"
+                                    value={this.state.newComment}
+                                    onChange={this.handleCommentChange} 
                                 />
                             </label>
                         </div>
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.state.comments.map((comment, index) => (
+                            <li key={index}>{comment}</li>
+                        ))}    
                     </ul>
                 </section>
             </article>
