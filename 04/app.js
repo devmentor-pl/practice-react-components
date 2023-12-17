@@ -12,14 +12,18 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const { users, searchQuery } = this.state;
+
+        // filtrowanie uzytkownikow na podstawie searchQuery
+        const filteredUsers = searchQuery
+            ? users.filter(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
+            : users;
+
+        return filteredUsers.map((name, index) => (
+            <li key={index} onClick={ this.clickHandler }>
+                { name }
+            </li>
+        ));
     }
 
     clickHandler = e => {
@@ -34,11 +38,15 @@ class App extends React.Component {
         });
     }
 
+    searchInputChange = e => {
+        this.setState({ searchQuery: e.target.value });
+    }
+
     render() {
         const { firstName, lastName } = this.state;
         return (
-            <section onSubmit={ this.submitHandler }>
-                <form>
+            <section>
+                <form onSubmit={ this.submitHandler }> 
                     <input name="firstName"
                         value={ firstName }
                         onChange={ this.inputChange }
@@ -49,6 +57,10 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                <input
+                    placeholder='Szukaj uzytkownika...'
+                    onChange={ this.searchInputChange }
+                />
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
@@ -65,7 +77,7 @@ class App extends React.Component {
                 lastName: '',
             });
         } else {
-            // tutaj komunikat dla użytkownika
+            alert('Prosze wpisac imie i nazwisko');
         }
     }
 
