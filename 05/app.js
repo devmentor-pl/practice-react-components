@@ -1,6 +1,5 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import fakeWeatherData from './fakeWeatherData';
 import { getWeatherData } from './getWeatherData';
 
 const root = createRoot(document.querySelector('#root'));
@@ -8,24 +7,15 @@ const root = createRoot(document.querySelector('#root'));
 class Weather extends React.Component {
     state = {
         data: null,
-        useFakeData: false,
     };
 
     componentDidMount() {
         const { lat, lng } = this.props;
-        const { useFakeData } = this.state;
 
-        if(useFakeData) {
-            fakeWeatherData(lat, lng).then(data => {
-                this.setState({ data });
-            });
-        } else {
-            getWeatherData(lat, lng).then(data => {
-                console.log("Real data:", data);
-                this.setState({ data });
-            })
-            .catch(error => console.error("Error fetching weather data:", error));
-        }
+        getWeatherData(lat, lng).then(data => {
+            this.setState({ data });
+        })
+        .catch(error => console.error("Error fetching weather data:", error));
     }
 
     render() {
