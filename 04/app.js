@@ -12,14 +12,18 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const { users, searchQuery } = this.state;
+
+        // Filtrowanie użytkowników na podstawie searchQuery
+        const filteredUsers = users.filter(user =>
+            user.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        return filteredUsers.map((name, index) => (
+            <li key={index} onClick={this.clickHandler}>
+                {name}
+            </li>
+        ));
     }
 
     clickHandler = e => {
@@ -35,9 +39,16 @@ class App extends React.Component {
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
+            {/* Pole input do filtrowania listy */}
+            <input
+                    name="searchQuery"
+                    placeholder="Szukaj użytkownika"
+                    value={searchQuery}
+                    onChange={this.inputChange}
+                />
                 <form>
                     <input name="firstName"
                         value={ firstName }
