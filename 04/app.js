@@ -22,7 +22,7 @@ class App extends React.Component {
             );
         });
         } else {
-            const filteredUsers = users.filter(users => user.includes(searchQuery));
+            const filteredUsers = users.filter(user => user.toLowerCase().includes(searchQuery.toLowerCase()));
             return filteredUsers.map((name) => {
                 <li onClick={this.clickHandler}>{name}</li>
             })
@@ -58,7 +58,7 @@ class App extends React.Component {
                     <input type="submit"/>
                 </form>
                 <input name='searchQuery'
-                    value = {searchQuery}
+                    value = {this.state.searchQuery}
                     onChange={this.inputChange}/>
                 <ul>{ this.renderUsersList() }</ul>
             </section>
