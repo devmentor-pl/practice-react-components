@@ -103,10 +103,29 @@ class App extends React.Component {
   };
 
   renderUsersList() {
-    const {users} = this.state;
-    return users.map((name) => {
-      return <li onClick={this.clickHandler}>{name}</li>;
-    });
+    const {users, searchQuery} = this.state;
+
+    if (searchQuery !== '') {
+      const filteredUsers = users.filter((user) =>
+        user.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      return filteredUsers.map((name) => (
+        <li
+          key={name}
+          onClick={this.clickHandler}>
+          {name}
+        </li>
+      ));
+    } else {
+      return users.map((name) => (
+        <li
+          key={name}
+          onClick={this.clickHandler}>
+          {name}
+        </li>
+      ));
+    }
   }
 
   clickHandler = (e) => {
@@ -120,15 +139,15 @@ class App extends React.Component {
       [name]: value,
     });
   };
-  handleChange = (e) => {
-    this.inputChange(e);
-    const {users, searchQuery} = this.state;
-    const filteredUsers = users.filter((user) =>
-      user.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  //   handleChange = (e) => {
+  //     // this.inputChange(e);
+  //     const {users, searchQuery} = this.state;
+  //     const filteredUsers = users.filter((user) =>
+  //       user.toLowerCase().includes(searchQuery.toLowerCase())
+  //     );
 
-    this.setState({users: filteredUsers});
-  };
+  //     this.setState({users: filteredUsers});
+  //   };
 
   render() {
     const {firstName, lastName, searchQuery} = this.state;
@@ -151,7 +170,7 @@ class App extends React.Component {
         <input
           name="searchQuery"
           value={searchQuery}
-          onChange={this.handleChange}
+          onChange={this.inputChange}
         />
 
         <ul>{this.renderUsersList()}</ul>
