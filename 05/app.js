@@ -36,12 +36,11 @@ class Weather extends React.Component {
     return null;
   }
   async componentDidMount() {
-    const {data, latitude, longitude} = this.state;
+    const {latitude, longitude} = this.state;
     const url = `https://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=${this.apiKey}&units=M&lang=pl`;
     await this.fetchData(url);
   }
   async fetchData(url) {
-    const {data, latitude, longitude} = this.state;
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -59,7 +58,7 @@ class Weather extends React.Component {
 
 root.render(
   <Weather
-    latitude={50.061389}
-    longitude={19.938333}
+    latitude={52.232222}
+    longitude={21.008333}
   />
 );
