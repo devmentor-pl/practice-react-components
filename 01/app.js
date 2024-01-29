@@ -14,16 +14,9 @@ class App extends React.Component {
   }
   componentDidMount() {
     console.log('componentDidMount');
-    // const {counter} = this.state;
-    // const newState = {
-    //   counter: counter + 1,
-    // };
-    // this.id = setInterval(() => {
-    //   this.setState(newState), 5000;
-    // });
     this.id = setInterval(() => {
       const {counter} = this.state;
-      this.setState({counter: counter + 1}), 5000;
+      this.setState({counter: counter + 1}), 1000;
     });
   }
   componentDidUpdate() {
