@@ -3,11 +3,11 @@ class API {
     this.url = url;
   }
 
-  async fetchData() {
+  async load() {
     return await this._fetch();
   }
 
-  async addData(data) {
+  async add(data) {
     const options = {
       method: 'POST',
       body: JSON.stringify(data),
@@ -19,12 +19,12 @@ class API {
     return await this._fetch(options);
   }
 
-  async removeData(id) {
+  async remove(id) {
     const options = {method: 'DELETE'};
     return await this._fetch(options, `/${id}`);
   }
 
-  async updateData(id, data) {
+  async update(id, data) {
     const options = {
       method: 'PUT',
       body: JSON.stringify(data),

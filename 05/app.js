@@ -7,17 +7,18 @@ const root = createRoot(document.querySelector('#root'));
 class Weather extends React.Component {
   state = {
     data: null,
-    latitude: this.props.latitude,
-    longitude: this.props.longitude,
   };
   constructor(props) {
     super(props);
 
     this.apiKey = '1b4ea2ecd37c4174ac406ce8a2376027';
-    this.api = new API();
+    this.api = new API(
+      `https://api.weatherbit.io/v2.0/current?lat=${props.latitude}&lon=${props.longitude}&key=${this.apiKey}&units=M&lang=pl`
+    );
   }
   render() {
-    const {data, latitude, longitude} = this.state;
+    const {data} = this.state;
+    const {latitude, longitude} = this.props;
     if (data) {
       return (
         <div>
@@ -35,11 +36,7 @@ class Weather extends React.Component {
     return null;
   }
   async componentDidMount() {
-    const {latitude, longitude} = this.state;
-
-    const url = `https://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=${this.apiKey}&units=M&lang=pl`;
-    const api = new API(url);
-    const weatherData = await api.fetchData();
+    const weatherData = await this.api.load();
     return this.setState({data: weatherData});
   }
 }
