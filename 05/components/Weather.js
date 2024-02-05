@@ -10,7 +10,7 @@ class Weather extends React.Component {
         fetch(url)
             .then(res => {
                 if (!res.ok) {
-                    throw new Error('Cannot get data!');
+                    throw new Error('Cant get data!');
                 }
                 return res.json();
             })
@@ -34,7 +34,7 @@ class Weather extends React.Component {
         const { data, loading, error } = this.state;
 
         if (loading) {
-            return <div>Loading...</div>;
+            return <div>Loading</div>;
         }
 
         if (error) {
@@ -43,7 +43,7 @@ class Weather extends React.Component {
 
         return (
             <>
-                <h1>Weather information:</h1>
+                <h1>Weather Now:</h1>
                 <ul>
                     {data.map((el, index) => (
                         <li key={index}>{el}</li>
