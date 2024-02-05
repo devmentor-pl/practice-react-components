@@ -20,4 +20,17 @@ class App extends React.Component {
         console.log('Component DidUpdate');
     }
 
-    
+    componentWillUnmount() {
+        clearInterval(this.stopInterval);
+        console.log('Component WillUnmount');
+    }
+
+    render() {
+        const { counter } = this.state;
+        console.log('render');
+
+        return <h1>{counter}</h1>;
+    }
+}
+
+ReactDOM.render(<App />, document.querySelector('#root'));
