@@ -6,6 +6,16 @@ const root = createRoot(document.querySelector('#root'));
 class Article extends React.Component {
     state = {
         comments: [],
+        textarea: '',
+    }
+
+    renComList() {
+        const {comments} = this.state
+        return comments.map((comment, index) => {
+            return (
+                <li key={index}>{ comment }</li>
+            )
+        })
     }
     
     render() {
