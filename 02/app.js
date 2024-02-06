@@ -1,16 +1,19 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-
-const root = createRoot(document.querySelector('#root'));
+import ReactDOM from 'react-dom';
 
 class Counter extends React.Component {
     state = {
         amount: 0,
     }
-    
+    handleClick = (e) => {
+        const { amount } = this.state;
+        if (e.target.classList.contains('btn')) {
+            this.setState({amount:amount+1})
+        };
+     };
     render() {
-        return <button>click me ({ this.state.amount })</button>
+        return <button className='btn' onClick={this.handleClick}>click me ({ this.state.amount })</button>
     }
 }
 
-root.render(<Counter />);
+ReactDOM.render(<Counter />, document.querySelector('#root'));
