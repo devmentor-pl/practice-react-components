@@ -5,34 +5,65 @@ const root = createRoot(document.querySelector('#root'));
 
 class Article extends React.Component {
     state = {
+        comment: '',
         comments: [],
     }
     
     render() {
         const {title, body} = this.props;
+        const { comment } = this.state
+        const commentsList = this.state.comments.map((userComment) => {
+            return <li>{userComment}</li>
+        })
         return (
             <article>
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={ this.submitHandler }>
                         <div>
                             <label>
                                 <textarea 
                                     style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" 
+                                    name="content"
+                                    value={comment}
+                                    onChange={ this.inputChange } 
                                 />
                             </label>
                         </div>
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {commentsList}
                     </ul>
                 </section>
             </article>
         )
     }
+
+    addComment(comment) {
+        this.setState({
+            comments: [...this.state.comments, comment],
+            comment: '',
+        })
+    }
+
+    inputChange = e => {
+        const {value} = e.target
+        this.setState({
+            comment: value,
+        })
+    }
+
+    submitHandler = e => {
+        e.preventDefault()
+        const {comment} = this.state
+
+        if(comment) {
+            this.addComment(comment)
+        }
+    }
+
 }
 
 root.render(
