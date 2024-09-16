@@ -4,86 +4,105 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class App extends React.Component {
-    state = { 
-        firstName: '',
-        lastName: '',
-        searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
-    }
+	state = {
+		firstName: '',
+		lastName: '',
+		searchQuery: '',
+		users: ['Jan Kowalski', 'Michał Nowak'],
+		errors: [],
+	};
 
-    renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
-    }
+	renderUsersList() {
+		const { users, searchQuery } = this.state;
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+		if (searchQuery === '') {
+			return users.map((name) => this.createLiElement(name));
+		} else {
+			const usersFiltered = users.filter((user) =>
+				user.toLowerCase().includes(searchQuery.toLowerCase())
+			);
+			return usersFiltered.map((user) => this.createLiElement(user));
+		}
+	}
 
-    inputChange = e => {
-        const {name, value} = e.target;
-        this.setState({
-            [name]: value,
-        });
-    }
+	clickHandler = (e) => {
+		const { innerText: userName } = e.target;
+		this.removeUser(userName);
+	};
 
-    render() {
-        const { firstName, lastName } = this.state;
-        return (
-            <section onSubmit={ this.submitHandler }>
-                <form>
-                    <input name="firstName"
-                        value={ firstName }
-                        onChange={ this.inputChange }
-                    />
-                    <input name="lastName"
-                        value={ lastName }
-                        onChange={ this.inputChange }
-                    />
-                    <input type="submit"/>
-                </form>
-                <ul>{ this.renderUsersList() }</ul>
-            </section>
-        );
-    }
+	inputChange = (e) => {
+		const { name, value } = e.target;
+		this.setState({
+			[name]: value,
+		});
+	};
 
-    submitHandler = e => {
-        e.preventDefault();
+	render() {
+		const { firstName, lastName, searchQuery, errors } = this.state;
+		return (
+			<section onSubmit={this.submitHandler}>
+				<form>
+					<input
+						name='firstName'
+						value={firstName}
+						onChange={this.inputChange}
+					/>
+					<input name='lastName' value={lastName} onChange={this.inputChange} />
+					<input type='submit' />
+				</form>
+				<label htmlFor='search'>Szukaj:</label>
+				<input
+					name='searchQuery'
+					onChange={this.inputChange}
+					type='text'
+					id='search'
+					value={searchQuery}
+				/>
+				{errors.length > 0 ? this.showErrors(errors) : null}
+				<ul>{this.renderUsersList()}</ul>
+			</section>
+		);
+	}
 
-        const { firstName, lastName } = this.state;
-        if(firstName && lastName) {
-            this.addUser(`${firstName} ${lastName}`);
-            this.setState({
-                firstName: '',
-                lastName: '',
-            });
-        } else {
-            // tutaj komunikat dla użytkownika
-        }
-    }
+	submitHandler = (e) => {
+		e.preventDefault();
 
-    addUser(name) {
-        this.setState({
-            users: [...this.state.users, name],
-        });
-    }
+		const { firstName, lastName } = this.state;
+		if (firstName && lastName) {
+			this.addUser(`${firstName} ${lastName}`);
+			this.setState({
+				firstName: '',
+				lastName: '',
+				errors: [],
+			});
+		} else {
+			this.setState({
+				errors: ['Proszę podać imię i nazwisko użytkownika'],
+			});
+		}
+	};
 
-    removeUser(name) {
-        const currUsers = this.state.users.filter(
-            user => user != name
-        );
+	addUser(name) {
+		this.setState({
+			users: [...this.state.users, name],
+		});
+	}
 
-        this.setState({
-            users: currUsers,
-        });
-    }
+	removeUser(name) {
+		const currUsers = this.state.users.filter((user) => user != name);
+
+		this.setState({
+			users: currUsers,
+		});
+	}
+
+	createLiElement(value) {
+		return <li onClick={this.clickHandler}>{value}</li>;
+	}
+
+	showErrors(errorsBox) {
+		return errorsBox.map((err) => <p>{err}</p>);
+	}
 }
 
-root.render(<App/>);
+root.render(<App />);
