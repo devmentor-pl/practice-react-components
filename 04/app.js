@@ -10,16 +10,26 @@ class App extends React.Component {
         searchQuery: '',
         users: ['Jan Kowalski', 'Michał Nowak'],
     }
-
+    createLi(name){
+        return (
+            <li onClick={ this.clickHandler }>
+                { name }
+            </li>
+        );
+    }
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const {users, searchQuery} = this.state;
+        if(searchQuery.length > 0){
+            return users.filter(name => {
+                if(name.includes(searchQuery)){
+                    return this.createLi(name);
+                }
+            })
+        }else{
+            return users.map(name => {
+                return this.createLi(name);
+            });
+        }
     }
 
     clickHandler = e => {
@@ -33,11 +43,17 @@ class App extends React.Component {
             [name]: value,
         });
     }
-
+    findUser = e => {
+        const {name,value} = e.target;
+        this.setState({
+            [name]: value,
+        })
+    }
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery} = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
+                <input name="searchQuery" value={searchQuery} onChange={this.findUser}></input>
                 <form>
                     <input name="firstName"
                         value={ firstName }
@@ -65,7 +81,7 @@ class App extends React.Component {
                 lastName: '',
             });
         } else {
-            // tutaj komunikat dla użytkownika
+            alert('Missing field')
         }
     }
 
