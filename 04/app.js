@@ -4,86 +4,114 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class App extends React.Component {
-    state = { 
-        firstName: '',
-        lastName: '',
-        searchQuery: '',
-        users: ['Jan Kowalski', 'Michał Nowak'],
-    }
+	state = {
+		firstName: '',
+		lastName: '',
+		searchQuery: '',
+		users: ['Jan Kowalski', 'Michał Nowak'],
+	};
 
-    renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
-    }
+	renderUsersList() {
+		const { users, searchQuery } = this.state;
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
+		if (searchQuery !== '') {
+			return this.searchUsers(searchQuery).map((name) => {
+				return <li onClick={this.clickHandler}>{name}</li>;
+			});
+		} else {
+			return users.map((name) => {
+				return <li onClick={this.clickHandler}>{name}</li>;
+			});
+		}
+	}
 
-    inputChange = e => {
-        const {name, value} = e.target;
-        this.setState({
-            [name]: value,
-        });
-    }
+	clickHandler = (e) => {
+		const { innerText: userName } = e.target;
+		this.removeUser(userName);
+	};
 
-    render() {
-        const { firstName, lastName } = this.state;
-        return (
-            <section onSubmit={ this.submitHandler }>
-                <form>
-                    <input name="firstName"
-                        value={ firstName }
-                        onChange={ this.inputChange }
-                    />
-                    <input name="lastName"
-                        value={ lastName }
-                        onChange={ this.inputChange }
-                    />
-                    <input type="submit"/>
-                </form>
-                <ul>{ this.renderUsersList() }</ul>
-            </section>
-        );
-    }
+	inputChange = (e) => {
+		const { name, value } = e.target;
+		this.setState({
+			[name]: value,
+		});
+	};
 
-    submitHandler = e => {
-        e.preventDefault();
+	render() {
+		const { firstName, lastName, searchQuery } = this.state;
+		return (
+			<>
+				<section onSubmit={this.submitHandler}>
+					<form>
+						<input
+							name='firstName'
+							value={firstName}
+							onChange={this.inputChange}
+						/>
+						<input
+							name='lastName'
+							value={lastName}
+							onChange={this.inputChange}
+						/>
+						<input type='submit' />
+					</form>
+					<ul>{this.renderUsersList()}</ul>
+				</section>
+				<section onChange={this.searchHandler}>
+					<label>Znajdź użytkownika: </label>
+					<input
+						name='searchQuery'
+						value={searchQuery}
+						onChange={this.inputChange}></input>
+				</section>
+			</>
+		);
+	}
 
-        const { firstName, lastName } = this.state;
-        if(firstName && lastName) {
-            this.addUser(`${firstName} ${lastName}`);
-            this.setState({
-                firstName: '',
-                lastName: '',
-            });
-        } else {
-            // tutaj komunikat dla użytkownika
-        }
-    }
+	searchHandler = (e) => {
+		const value = e.target.value;
+		this.searchUsers(value);
+	};
 
-    addUser(name) {
-        this.setState({
-            users: [...this.state.users, name],
-        });
-    }
+	searchUsers(searchQuery) {
+		const { users } = this.state;
 
-    removeUser(name) {
-        const currUsers = this.state.users.filter(
-            user => user != name
-        );
+		const searchUsers = users.filter((user) => {
+			if (user.toLowerCase().includes(searchQuery.toLowerCase())) {
+				return user;
+			}
+		});
+		return searchUsers;
+	}
 
-        this.setState({
-            users: currUsers,
-        });
-    }
+	submitHandler = (e) => {
+		e.preventDefault();
+
+		const { firstName, lastName } = this.state;
+		if (firstName && lastName) {
+			this.addUser(`${firstName} ${lastName}`);
+			this.setState({
+				firstName: '',
+				lastName: '',
+			});
+		} else {
+			alert('Wprowadź dane użytkownika!');
+		}
+	};
+
+	addUser(name) {
+		this.setState({
+			users: [...this.state.users, name],
+		});
+	}
+
+	removeUser(name) {
+		const currUsers = this.state.users.filter((user) => user != name);
+
+		this.setState({
+			users: currUsers,
+		});
+	}
 }
 
-root.render(<App/>);
+root.render(<App />);

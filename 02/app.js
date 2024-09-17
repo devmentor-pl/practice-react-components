@@ -4,13 +4,20 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class Counter extends React.Component {
-    state = {
-        amount: 0,
-    }
-    
-    render() {
-        return <button>click me ({ this.state.amount })</button>
-    }
+	state = {
+		amount: 0,
+	};
+
+	render() {
+		return (
+			<button onClick={this.handleClick}>click me ({this.state.amount})</button>
+		);
+	}
+
+	handleClick = () => {
+		const { amount } = this.state;
+		this.setState({ amount: amount + 1 });
+	};
 }
 
 root.render(<Counter />);
