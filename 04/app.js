@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class App extends React.Component {
-    state = { 
+    state = {
         firstName: '',
         lastName: '',
         searchQuery: '',
@@ -12,44 +12,50 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
+        const { users, searchQuery } = this.state;
+        if (!searchQuery) {
+           return this.renderUserItem(users)
+        } else {
+            const filterList = users.filter(name => name.toLowerCase().includes(searchQuery.toLocaleLowerCase()))
+            return this.renderUserItem(filterList)
+        }
+    }
+
+    renderUserItem = (list) => {
+        return list.map(name => {
             return (
-                <li onClick={ this.clickHandler }>
-                    { name }
+                <li onClick={() => this.removeUser(name)}>
+                    {name}
                 </li>
             );
         });
     }
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
-    }
-
     inputChange = e => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
+        console.log(name)
         this.setState({
             [name]: value,
         });
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
-            <section onSubmit={ this.submitHandler }>
+            <section onSubmit={this.submitHandler}>
                 <form>
                     <input name="firstName"
-                        value={ firstName }
-                        onChange={ this.inputChange }
+                        value={firstName}
+                        onChange={this.inputChange}
                     />
                     <input name="lastName"
-                        value={ lastName }
-                        onChange={ this.inputChange }
+                        value={lastName}
+                        onChange={this.inputChange}
                     />
-                    <input type="submit"/>
+                    <input type="submit" />
                 </form>
-                <ul>{ this.renderUsersList() }</ul>
+                <input name='searchQuery' value={searchQuery} onChange={this.inputChange} />
+                <ul>{this.renderUsersList()}</ul>
             </section>
         );
     }
@@ -58,14 +64,14 @@ class App extends React.Component {
         e.preventDefault();
 
         const { firstName, lastName } = this.state;
-        if(firstName && lastName) {
+        if (firstName && lastName) {
             this.addUser(`${firstName} ${lastName}`);
             this.setState({
                 firstName: '',
                 lastName: '',
             });
         } else {
-            // tutaj komunikat dla użytkownika
+            alert('oba pola muszą być wypełnione')
         }
     }
 
@@ -86,4 +92,4 @@ class App extends React.Component {
     }
 }
 
-root.render(<App/>);
+root.render(<App />);

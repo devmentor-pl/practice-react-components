@@ -7,6 +7,22 @@ class Article extends React.Component {
     state = {
         comments: [],
     }
+
+    formHandler = (e) => {
+        e.preventDefault()
+        const textarea = e.target[0]
+        const {comments} = this.state
+        this.setState({
+            comments: [...comments, textarea.value]
+        })
+        textarea.value = ''
+    }
+    
+    commentsHandler = () => {
+        return this.state.comments.map( (comment, index) => {
+        return <li key={index}>{comment}</li>
+        })
+    }
     
     render() {
         const {title, body} = this.props;
@@ -15,7 +31,9 @@ class Article extends React.Component {
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form
+                    onSubmit={this.formHandler}
+                    >
                         <div>
                             <label>
                                 <textarea 
@@ -27,7 +45,7 @@ class Article extends React.Component {
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
+                        {this.commentsHandler()}
                     </ul>
                 </section>
             </article>
