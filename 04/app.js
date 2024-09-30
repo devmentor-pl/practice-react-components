@@ -12,19 +12,27 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
-    }
+        const {users,searchQuery} = this.state;
 
-    clickHandler = e => {
-        const {innerText: userName} = e.target;
-        this.removeUser(userName);
+        if(searchQuery === ''){
+
+            return users.map(name => {
+                return (
+                    <li onClick={ () => this.removeUser(name) }>
+                        { name }
+                    </li>
+                );
+            });
+        } else {
+            const userList = users.filter(user => user.toUpperCase().includes(searchQuery.toUpperCase()))
+            return userList.map(name => {
+                return (
+                    <li onClick={ () => this.removeUser(name) }>
+                        { name }
+                    </li>
+                );
+            });
+        }
     }
 
     inputChange = e => {
@@ -39,6 +47,12 @@ class App extends React.Component {
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
+                    <input 
+                        name="searchQuery" 
+                        type="text" 
+                        value={this.state.searchQuery}
+                        onChange={this.inputChange}
+                        />
                     <input name="firstName"
                         value={ firstName }
                         onChange={ this.inputChange }
