@@ -12,10 +12,16 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
+        const { users, searchQuery } = this.state;
+
+        const filteredUsers = searchQuery 
+        ? users.filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()))
+        : users;
+
+
+        return filteredUsers.map(name => {
             return (
-                <li onClick={ this.clickHandler }>
+                <li onClick={ this.clickHandler } key={ name }>
                     { name }
                 </li>
             );
@@ -35,7 +41,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
             <section onSubmit={ this.submitHandler }>
                 <form>
@@ -49,6 +55,15 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                
+                {}
+                <input 
+                    name="searchQuery"
+                    value={ searchQuery }
+                    onChange={ this.inputChange }
+                    placeholder="Szukaj użytkowników"
+                />
+                
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
@@ -65,7 +80,7 @@ class App extends React.Component {
                 lastName: '',
             });
         } else {
-            // tutaj komunikat dla użytkownika
+        
         }
     }
 

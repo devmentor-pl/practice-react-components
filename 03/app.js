@@ -7,30 +7,52 @@ class Article extends React.Component {
     state = {
         comments: [],
     }
+    handleInputChange = (event) => {
+        this.setState({ newComment: event.target.value })
+    }
     
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const { comments, newComment } = this.state;
+
+        if (newComment.trim()) { // dodawanie komentarza gdy nie jest pusty
+            this.setState({
+                comments: [...comments, newComment], // dodawanie komentarza do listy
+                newComment: '' // czyszczenie pola tekstowego
+            });
+        }
+    };
+
     render() {
-        const {title, body} = this.props;
+        const { title, body } = this.props;
+        const { comments, newComment } = this.state;
+
+
         return (
             <article>
-                <h1>{ title }</h1>
-                <p>{ body }</p>
-                <section>
-                    <form>
-                        <div>
-                            <label>
-                                <textarea 
-                                    style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" 
-                                />
-                            </label>
-                        </div>
-                        <div><input type="submit" value="dodaj komentarz" /></div>
-                    </form>
-                    <ul>
-                        {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
-                    </ul>
-                </section>
-            </article>
+            <h1>{title}</h1>
+            <p>{body}</p>
+            <section>
+                <form onSubmit={this.handleSubmit}>
+                    <div>
+                        <label>
+                            <textarea
+                                style={{ minWidth: "300px", minHeight: "120px" }}
+                                name="content"
+                                value={newComment} // Wartość kontrolowana przez state
+                                onChange={this.handleInputChange} // Aktualizujemy state przy zmianach
+                            />
+                        </label>
+                    </div>
+                    <div><input type="submit" value="dodaj komentarz" /></div>
+                </form>
+                <ul>
+                    {comments.map((comment, index) => (
+                        <li key={index}>{comment}</li> // Renderowanie komentarzy jako elementów listy
+                    ))}
+                </ul>
+            </section>
+        </article>
         )
     }
 }
