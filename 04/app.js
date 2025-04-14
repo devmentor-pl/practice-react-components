@@ -12,15 +12,29 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
+
+        const {users, searchQuery} = this.state;
+
+        let filteredUsers;
+
+        if (searchQuery === ''){
+            filteredUsers = users;
+        } else {
+            filteredUsers = users.filter((user) => 
+                user.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+
+        }
+
+        return filteredUsers.map(name => {
             return (
                 <li onClick={ this.clickHandler }>
                     { name }
                 </li>
             );
         });
-    }
+    } 
+    
 
     clickHandler = e => {
         const {innerText: userName} = e.target;
@@ -32,6 +46,10 @@ class App extends React.Component {
         this.setState({
             [name]: value,
         });
+    }
+
+    inputFilterChange = e => {
+        this.setState({searchQuery: e.target.value})
     }
 
     render() {
@@ -49,6 +67,7 @@ class App extends React.Component {
                     />
                     <input type="submit"/>
                 </form>
+                <input name='filterNames' onChange={this.inputFilterChange}></input>
                 <ul>{ this.renderUsersList() }</ul>
             </section>
         );
@@ -66,6 +85,7 @@ class App extends React.Component {
             });
         } else {
             // tutaj komunikat dla użytkownika
+            alert('Pole firstName i lastName nie moze byc puste!')
         }
     }
 
