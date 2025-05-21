@@ -13,7 +13,7 @@ Tym razem zmierzymy się z API, z którym mieliśmy już do czynienia – [weath
 
 Aby móc skorzystać z tego API, musisz się [zarejestrować](https://www.weatherbit.io/account/create) i uzyskać tzw. `key`.
 
-Adres, pod którym dostępne są dane o pogodzie to: `https://api.weatherbit.io/v2.0/current?key=[key]&lat=[latitude]&lon=[longitude]`, gdzie:
+Adres, pod którym dostępne są dane o pogodzie to: `https://api.weatherbit.io/v2.0/current?key=3c7780be665b4f53a8f185db308d710e&lat=50.061389&lon=19.938333`, gdzie:
 
 * **[key]** – to Twój identyfikator
 * **[latitude]** – [szerokość geograficzna](https://pl.wikipedia.org/wiki/Szeroko%C5%9B%C4%87_geograficzna)
