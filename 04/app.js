@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 const root = createRoot(document.querySelector('#root'));
 
 class App extends React.Component {
-    state = { 
+    state = {
         firstName: '',
         lastName: '',
         searchQuery: '',
@@ -12,44 +12,64 @@ class App extends React.Component {
     }
 
     renderUsersList() {
-        const {users} = this.state;
-        return users.map(name => {
-            return (
-                <li onClick={ this.clickHandler }>
-                    { name }
-                </li>
-            );
-        });
+        const { users, searchQuery } = this.state;
+        if (!searchQuery.trimEnd()) {
+            return users.map(name => {
+                return (
+                    <li onClick={this.clickHandler}>
+                        {name}
+                    </li>
+                );
+            });
+        }
+        const filteredUsers = users.filter(user =>
+            user.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        return filteredUsers.map(name => (
+            <li onClick={this.clickHandler}>
+                {name}
+            </li>
+        ));
     }
 
+
+
     clickHandler = e => {
-        const {innerText: userName} = e.target;
+        const { innerText: userName } = e.target;
         this.removeUser(userName);
     }
 
     inputChange = e => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         this.setState({
             [name]: value,
         });
     }
+    searchQueryChange = e => {
+        const { value } = e.target;
+        this.setState({ searchQuery: value, });
+
+    }
 
     render() {
-        const { firstName, lastName } = this.state;
+        const { firstName, lastName, searchQuery } = this.state;
         return (
-            <section onSubmit={ this.submitHandler }>
+            <section onSubmit={this.submitHandler}>
+                <input name='searchQuery' value={searchQuery} onChange={this.searchQueryChange} placeholder="Find user..." />
                 <form>
                     <input name="firstName"
-                        value={ firstName }
-                        onChange={ this.inputChange }
+                        value={firstName}
+                        onChange={this.inputChange}
                     />
                     <input name="lastName"
-                        value={ lastName }
-                        onChange={ this.inputChange }
+                        value={lastName}
+                        onChange={this.inputChange}
                     />
-                    <input type="submit"/>
+                    <input type="submit" />
                 </form>
-                <ul>{ this.renderUsersList() }</ul>
+
+                <ul>{this.renderUsersList()}</ul>
             </section>
         );
     }
@@ -58,7 +78,7 @@ class App extends React.Component {
         e.preventDefault();
 
         const { firstName, lastName } = this.state;
-        if(firstName && lastName) {
+        if (firstName && lastName) {
             this.addUser(`${firstName} ${lastName}`);
             this.setState({
                 firstName: '',
@@ -86,4 +106,4 @@ class App extends React.Component {
     }
 }
 
-root.render(<App/>);
+root.render(<App />);
