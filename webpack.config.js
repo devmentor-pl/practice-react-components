@@ -1,7 +1,8 @@
-const taskNumber = null;
+const taskNumber = '05';
 //numer przerabianego zadania
 
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 // importuję bibliotękę [path] z [node.js]
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // importuję odpowiedni plugin
@@ -35,7 +36,8 @@ module.exports = {
             // wskazuje plik źródłowy
             filename: 'index.html'
             // określam nazwę dla pliku
-        })
+        }),
+        new Dotenv()
     ]
 }
 // eksportuję ustawienia dla webpack-a
